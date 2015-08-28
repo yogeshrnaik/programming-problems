@@ -1,4 +1,4 @@
-package com.problems.englishalphabets;
+package com.englishalphabets;
 import java.io.*;
 public class CandidateCode
 {

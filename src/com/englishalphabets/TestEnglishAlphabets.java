@@ -1,5 +1,6 @@
-package com.problems.englishalphabets;
+package com.englishalphabets;
 
+import com.englishalphabets.CandidateCode;
 import org.junit.Test;
 
 public class TestEnglishAlphabets {
