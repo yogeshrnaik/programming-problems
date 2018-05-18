@@ -16,34 +16,35 @@ public class Stats {
         private static final class StockStat {
 
             private final String symbol;
-            private double avgPrice;
+            private double totalPrice;
             private int tickCount;
 
             public StockStat(String symbol) {
                 this.symbol = symbol;
-                avgPrice = 0.0;
+                totalPrice = 0.0;
                 tickCount = 0;
             }
 
-            public StockStat(String symbol, double avgPrice, int tickCount) {
+            public StockStat(String symbol, double totalPrice, int tickCount) {
                 this.symbol = symbol;
-                this.avgPrice = avgPrice;
+                this.totalPrice = totalPrice;
                 this.tickCount = tickCount;
             }
 
             public synchronized StockStat putNewPrice(double price) {
-                avgPrice = ((avgPrice * tickCount) + price) / (tickCount + 1);
+                totalPrice = totalPrice + price;
                 tickCount++;
                 return this;
             }
 
             public StockStat merge(StockStat other) {
-                double otherTotal = other.tickCount * other.avgPrice;
-                double thisTotal = tickCount * avgPrice;
-
                 int newTickCount = this.tickCount + other.tickCount;
-                double newAvgPrice = newTickCount == 0 ? 0.0 : (thisTotal + otherTotal) / (this.tickCount + other.tickCount);
-                return new StockStat(this.symbol, newAvgPrice, newTickCount);
+                double newTotalPrice = this.totalPrice + other.totalPrice;
+                return new StockStat(this.symbol, newTotalPrice, newTickCount);
+            }
+
+            public double getAvgPrice() {
+                return tickCount == 0 ? 0.0 : totalPrice / tickCount;
             }
         }
 
@@ -66,7 +67,7 @@ public class Stats {
         @Override
         public double getAveragePrice(String symbol) {
             // YOUR CODE HERE
-            return stockStats.getOrDefault(symbol, new StockStat(symbol)).avgPrice;
+            return stockStats.getOrDefault(symbol, new StockStat(symbol)).getAvgPrice();
         }
 
         @Override
@@ -97,6 +98,7 @@ public class Stats {
             final StatisticsAggregator stats = new StatisticsAggregatorImpl();
             final Set<String> symbols = new TreeSet<>();
 
+            // sample input: 4,IBM 10,APL 20,IBM 5,APL 10,APL 30,APL 50,IBM 5
             String line = scanner.nextLine();
             String[] inputs = line.split(",");
             int threads = Integer.parseInt(inputs[0]);
