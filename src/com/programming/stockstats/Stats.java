@@ -53,12 +53,13 @@ public class Stats {
         public void putNewPrice(String symbol, double price) {
             // YOUR CODE HERE
             synchronized (stockStats) {
-                if (stockStats.containsKey(symbol)) {
-                    StockStat stockStat = stockStats.get(symbol);
-                    stockStat.putNewPrice(price);
-                } else {
-                    stockStats.put(symbol, new StockStat(symbol, price, 1));
-                }
+                stockStats.merge(symbol, new StockStat(symbol, price, 1), (s1, s2) -> s1.merge(s2));
+                // if (stockStats.containsKey(symbol)) {
+                // StockStat stockStat = stockStats.get(symbol);
+                // stockStat.putNewPrice(price);
+                // } else {
+                // stockStats.put(symbol, new StockStat(symbol, price, 1));
+                // }
             }
         }
 
