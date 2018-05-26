@@ -7,38 +7,48 @@ public class SolutionWithMerge extends Solution {
 
     private static class SmsResult {
 
-        private int smsCount;
         private final int limit;
+        private int smsCount;
         private String smsSoFar;
         private boolean smsTxtBiggerThanLimit;
 
         public SmsResult(int limit) {
             this.limit = limit;
+            smsCount = 0;
+            smsSoFar = "";
+            smsTxtBiggerThanLimit = false;
         }
 
         public SmsResult append(String txt) {
-            if (smsTxtBiggerThanLimit || txt.length() > limit) {
+            if (isSmsBiggerThanLimit(txt)) {
                 smsCount = -1;
                 smsTxtBiggerThanLimit = true;
                 return this;
             }
+            return appendText(txt);
+        }
 
-            String sms = (smsSoFar != null) ? smsSoFar + " " + txt : txt;
-            if (sms.length() >= limit) {
+        private boolean isSmsBiggerThanLimit(String txt) {
+            return smsTxtBiggerThanLimit || txt.length() > limit;
+        }
+
+        private SmsResult appendText(String txt) {
+            String currSms = isSmsSoFarNotEmpty() ? smsSoFar + " " + txt : txt;
+            if (currSms.length() >= limit) {
                 smsCount++;
-                smsSoFar = sms.length() == limit ? null : txt;
+                smsSoFar = currSms.length() == limit ? "" : txt;
             } else {
-                smsSoFar = sms;
+                smsSoFar = currSms;
             }
             return this;
         }
 
-        public SmsResult merge(SmsResult sms) {
-            return this;
+        private boolean isSmsSoFarNotEmpty() {
+            return smsSoFar != null && smsSoFar.trim().length() > 0;
         }
 
         public int getSmsCount() {
-            return smsSoFar != null && smsSoFar.trim().length() > 0 ? smsCount + 1 : smsCount;
+            return isSmsSoFarNotEmpty() ? smsCount + 1 : smsCount;
         }
 
     }
@@ -48,7 +58,7 @@ public class SolutionWithMerge extends Solution {
 
         SmsResult smsResult = words.stream().reduce(new SmsResult(limit),
             (sms, txt) -> sms.append(txt),
-            (sms1, sms2) -> sms1.merge(sms2));
+            (sms1, sms2) -> null);
 
         return smsResult.getSmsCount();
     }
