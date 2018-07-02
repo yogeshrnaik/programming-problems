@@ -1,4 +1,4 @@
-package com.programming.altassian;
+package com.programming.altassian.base7;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,13 +15,13 @@ public class Base7Conversion {
         base7.put(3L, "l");
         base7.put(4L, "s");
         base7.put(5L, "i");
-        base7.put(6L, "N");
+        base7.put(6L, "n");
     }
 
     public static void main(String[] args) {
         try (Scanner scanner = new Scanner(System.in)) {
             convertFromDecimalToBase7(scanner);
-            convertFromBase7ToDecimal(scanner);
+            // convertFromBase7ToDecimal(scanner);
         }
     }
 
