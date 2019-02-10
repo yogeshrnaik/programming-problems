@@ -1,4 +1,4 @@
-package com.programming.altassian.base7;
+package com.programming.atlassian.base7;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package com.programming.altassian.robot;
+package com.programming.atlassian.robot;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;

@@ -1,4 +1,4 @@
-package com.programming.altassian.looknsay;
+package com.programming.atlassian.looknsay;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;

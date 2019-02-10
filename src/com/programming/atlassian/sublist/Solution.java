@@ -1,4 +1,4 @@
-package com.programming.altassian.sublist;
+package com.programming.atlassian.sublist;
 
 import java.io.BufferedReader;
 import java.io.IOException;

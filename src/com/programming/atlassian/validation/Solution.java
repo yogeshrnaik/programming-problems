@@ -1,4 +1,4 @@
-package com.programming.altassian.validation;
+package com.programming.atlassian.validation;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
