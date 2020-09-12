@@ -6,9 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="292b0e8e-3cfa-4ab4-997a-cf8e439fa540" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/programming-problems.iml" beforeDir="false" afterPath="$PROJECT_DIR$/programming-problems.iml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,7 +64,7 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.26666668" />
     <property name="recentsLimit" value="5" />
-    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -80,7 +80,7 @@
       <command value="mvn compile" />
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.ConstructTree">
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
       <module name="" />
       <option name="ACTIVITY_CLASS" value="" />
@@ -267,6 +267,39 @@
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <method v="2" />
     </configuration>
+    <configuration name="ConstructTree" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="programming-problems" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.programming.tree.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.programming.tree" />
+      <option name="MAIN_CLASS_NAME" value="com.programming.tree.ConstructTree" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ConstructTree.testSampleInput" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="programming-problems" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.programming.tree.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.programming.tree" />
+      <option name="MAIN_CLASS_NAME" value="com.programming.tree.ConstructTree" />
+      <option name="METHOD_NAME" value="testSampleInput" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
       <option name="TEST_OBJECT" value="class" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
@@ -301,6 +334,12 @@
       <pass-parent-envs>true</pass-parent-envs>
       <method v="2" />
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.ConstructTree" />
+        <item itemvalue="JUnit.ConstructTree.testSampleInput" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SbtLocalSettings">
     <option name="externalProjectsViewState">
@@ -328,7 +367,7 @@
       <workItem from="1443874311118" duration="1206000" />
       <workItem from="1599897395704" duration="250000" />
       <workItem from="1599897662260" duration="508000" />
-      <workItem from="1599898187397" duration="118000" />
+      <workItem from="1599898187397" duration="340000" />
     </task>
     <servers />
   </component>
@@ -377,18 +416,18 @@
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
     <state x="378" y="198" key="Maven.ArtifactSearchDialog/0.23.1680.1027@0.23.1680.1027" timestamp="1599897522763" />
-    <state x="328" y="118" key="SettingsEditor" timestamp="1599898027052">
+    <state x="328" y="118" key="SettingsEditor" timestamp="1599898531418">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state x="328" y="118" key="SettingsEditor/0.23.1680.1027@0.23.1680.1027" timestamp="1599898027052" />
+    <state x="328" y="118" key="SettingsEditor/0.23.1680.1027@0.23.1680.1027" timestamp="1599898531418" />
     <state x="505" y="248" width="670" height="675" key="run.anything.popup" timestamp="1599897798624">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
     <state x="505" y="248" width="670" height="675" key="run.anything.popup/0.23.1680.1027@0.23.1680.1027" timestamp="1599897798624" />
-    <state x="505" y="250" width="670" height="676" key="search.everywhere.popup" timestamp="1599898301990">
+    <state x="505" y="250" width="670" height="676" key="search.everywhere.popup" timestamp="1599898418302">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state x="505" y="250" width="670" height="676" key="search.everywhere.popup/0.23.1680.1027@0.23.1680.1027" timestamp="1599898301990" />
+    <state x="505" y="250" width="670" height="676" key="search.everywhere.popup/0.23.1680.1027@0.23.1680.1027" timestamp="1599898418302" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
