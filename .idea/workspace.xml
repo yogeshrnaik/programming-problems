@@ -380,7 +380,7 @@
       <workItem from="1443874311118" duration="1206000" />
       <workItem from="1599897395704" duration="250000" />
       <workItem from="1599897662260" duration="508000" />
-      <workItem from="1599898187397" duration="1147000" />
+      <workItem from="1599898187397" duration="3090000" />
     </task>
     <servers />
   </component>
@@ -409,22 +409,38 @@
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
     <state x="423" y="208" key="#com.intellij.openapi.keymap.impl.ui.EditKeymapsDialog/0.23.1680.1027@0.23.1680.1027" timestamp="1599898093558" />
-    <state width="1638" height="280" key="GridCell.Tab.0.bottom" timestamp="1599898799844">
+    <state width="1638" height="280" key="GridCell.Tab.0.bottom" timestamp="1599901455706">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state width="1638" height="280" key="GridCell.Tab.0.bottom/0.23.1680.1027@0.23.1680.1027" timestamp="1599898799844" />
-    <state width="1638" height="280" key="GridCell.Tab.0.center" timestamp="1599898799843">
+    <state width="1638" height="280" key="GridCell.Tab.0.bottom/0.23.1680.1027@0.23.1680.1027" timestamp="1599901455706" />
+    <state width="1638" height="280" key="GridCell.Tab.0.center" timestamp="1599901455705">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state width="1638" height="280" key="GridCell.Tab.0.center/0.23.1680.1027@0.23.1680.1027" timestamp="1599898799843" />
-    <state width="1638" height="280" key="GridCell.Tab.0.left" timestamp="1599898799842">
+    <state width="1638" height="280" key="GridCell.Tab.0.center/0.23.1680.1027@0.23.1680.1027" timestamp="1599901455705" />
+    <state width="1638" height="280" key="GridCell.Tab.0.left" timestamp="1599901455705">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state width="1638" height="280" key="GridCell.Tab.0.left/0.23.1680.1027@0.23.1680.1027" timestamp="1599898799842" />
-    <state width="1638" height="280" key="GridCell.Tab.0.right" timestamp="1599898799843">
+    <state width="1638" height="280" key="GridCell.Tab.0.left/0.23.1680.1027@0.23.1680.1027" timestamp="1599901455705" />
+    <state width="1638" height="280" key="GridCell.Tab.0.right" timestamp="1599901455705">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state width="1638" height="280" key="GridCell.Tab.0.right/0.23.1680.1027@0.23.1680.1027" timestamp="1599898799843" />
+    <state width="1638" height="280" key="GridCell.Tab.0.right/0.23.1680.1027@0.23.1680.1027" timestamp="1599901455705" />
+    <state width="1638" height="461" key="GridCell.Tab.1.bottom" timestamp="1599901348307">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1638" height="461" key="GridCell.Tab.1.bottom/0.23.1680.1027@0.23.1680.1027" timestamp="1599901348307" />
+    <state width="1638" height="461" key="GridCell.Tab.1.center" timestamp="1599901348306">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1638" height="461" key="GridCell.Tab.1.center/0.23.1680.1027@0.23.1680.1027" timestamp="1599901348306" />
+    <state width="1638" height="461" key="GridCell.Tab.1.left" timestamp="1599901348305">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1638" height="461" key="GridCell.Tab.1.left/0.23.1680.1027@0.23.1680.1027" timestamp="1599901348305" />
+    <state width="1638" height="461" key="GridCell.Tab.1.right" timestamp="1599901348306">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1638" height="461" key="GridCell.Tab.1.right/0.23.1680.1027@0.23.1680.1027" timestamp="1599901348306" />
     <state x="378" y="198" key="Maven.ArtifactSearchDialog" timestamp="1599897522763">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
@@ -453,6 +469,16 @@
           <url>file://$PROJECT_DIR$/src/com/oyo/CandidateCode.java</url>
           <line>10</line>
           <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/programming/booking/problem3/Solution.java</url>
+          <line>27</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/programming/booking/problem3/Solution.java</url>
+          <line>11</line>
+          <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
