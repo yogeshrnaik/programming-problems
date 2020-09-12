@@ -5,10 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="292b0e8e-3cfa-4ab4-997a-cf8e439fa540" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/programming-problems.iml" beforeDir="false" afterPath="$PROJECT_DIR$/programming-problems.iml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,7 +77,7 @@
       <command value="mvn compile" />
     </option>
   </component>
-  <component name="RunManager" selected="Application.Solution">
+  <component name="RunManager" selected="Application.Solution (2)">
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
       <module name="" />
       <option name="ACTIVITY_CLASS" value="" />
@@ -246,6 +243,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Solution (2)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.programming.booking.sample.problem1.Solution" />
+      <module name="programming-problems" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.programming.booking.sample.problem1.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Solution" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.programming.booking.problem3.Solution" />
       <module name="programming-problems" />
@@ -364,6 +375,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Solution (2)" />
         <item itemvalue="Application.Solution" />
         <item itemvalue="Application.Solution (1)" />
         <item itemvalue="JUnit.ConstructTree" />
@@ -397,7 +409,7 @@
       <workItem from="1443874311118" duration="1206000" />
       <workItem from="1599897395704" duration="250000" />
       <workItem from="1599897662260" duration="508000" />
-      <workItem from="1599898187397" duration="3751000" />
+      <workItem from="1599898187397" duration="4260000" />
     </task>
     <servers />
   </component>
@@ -426,22 +438,22 @@
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
     <state x="423" y="208" key="#com.intellij.openapi.keymap.impl.ui.EditKeymapsDialog/0.23.1680.1027@0.23.1680.1027" timestamp="1599898093558" />
-    <state width="1638" height="594" key="GridCell.Tab.0.bottom" timestamp="1599902097973">
+    <state width="1638" height="414" key="GridCell.Tab.0.bottom" timestamp="1599902728157">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state width="1638" height="594" key="GridCell.Tab.0.bottom/0.23.1680.1027@0.23.1680.1027" timestamp="1599902097973" />
-    <state width="1638" height="594" key="GridCell.Tab.0.center" timestamp="1599902097972">
+    <state width="1638" height="414" key="GridCell.Tab.0.bottom/0.23.1680.1027@0.23.1680.1027" timestamp="1599902728157" />
+    <state width="1638" height="414" key="GridCell.Tab.0.center" timestamp="1599902728156">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state width="1638" height="594" key="GridCell.Tab.0.center/0.23.1680.1027@0.23.1680.1027" timestamp="1599902097972" />
-    <state width="1638" height="594" key="GridCell.Tab.0.left" timestamp="1599902097972">
+    <state width="1638" height="414" key="GridCell.Tab.0.center/0.23.1680.1027@0.23.1680.1027" timestamp="1599902728156" />
+    <state width="1638" height="414" key="GridCell.Tab.0.left" timestamp="1599902728156">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state width="1638" height="594" key="GridCell.Tab.0.left/0.23.1680.1027@0.23.1680.1027" timestamp="1599902097972" />
-    <state width="1638" height="594" key="GridCell.Tab.0.right" timestamp="1599902097972">
+    <state width="1638" height="414" key="GridCell.Tab.0.left/0.23.1680.1027@0.23.1680.1027" timestamp="1599902728156" />
+    <state width="1638" height="414" key="GridCell.Tab.0.right" timestamp="1599902728157">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state width="1638" height="594" key="GridCell.Tab.0.right/0.23.1680.1027@0.23.1680.1027" timestamp="1599902097972" />
+    <state width="1638" height="414" key="GridCell.Tab.0.right/0.23.1680.1027@0.23.1680.1027" timestamp="1599902728157" />
     <state width="1638" height="461" key="GridCell.Tab.1.bottom" timestamp="1599901348307">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
