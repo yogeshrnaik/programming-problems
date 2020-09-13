@@ -5,6 +5,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * https://www.hackerrank.com/challenges/sock-merchant/problem
+ */
 public class Solution {
 
     // Complete the sockMerchant function below.
