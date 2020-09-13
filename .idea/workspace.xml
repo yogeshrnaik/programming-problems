@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="292b0e8e-3cfa-4ab4-997a-cf8e439fa540" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/programming/booking/exam2/problem3/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/programming/booking/exam2/problem3/Solution.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/programming/booking/exam2/problem2/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/programming/booking/exam2/problem2/Solution.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -421,7 +421,7 @@
       <workItem from="1599897662260" duration="508000" />
       <workItem from="1599898187397" duration="4260000" />
       <workItem from="1599975324745" duration="11111000" />
-      <workItem from="1600002809711" duration="4828000" />
+      <workItem from="1600002809711" duration="5567000" />
     </task>
     <servers />
   </component>
@@ -458,38 +458,38 @@
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
     <state x="610" y="438" width="930" height="205" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.23.1680.1027@0.23.1680.1027" timestamp="1599982327397" />
-    <state width="1638" height="461" key="GridCell.Tab.0.bottom" timestamp="1600008619380">
+    <state width="1638" height="461" key="GridCell.Tab.0.bottom" timestamp="1600009547322">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state width="1638" height="461" key="GridCell.Tab.0.bottom/0.23.1680.1027@0.23.1680.1027" timestamp="1600008619380" />
-    <state width="1638" height="461" key="GridCell.Tab.0.center" timestamp="1600008619379">
+    <state width="1638" height="461" key="GridCell.Tab.0.bottom/0.23.1680.1027@0.23.1680.1027" timestamp="1600009547322" />
+    <state width="1638" height="461" key="GridCell.Tab.0.center" timestamp="1600009547321">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state width="1638" height="461" key="GridCell.Tab.0.center/0.23.1680.1027@0.23.1680.1027" timestamp="1600008619379" />
-    <state width="1638" height="461" key="GridCell.Tab.0.left" timestamp="1600008619378">
+    <state width="1638" height="461" key="GridCell.Tab.0.center/0.23.1680.1027@0.23.1680.1027" timestamp="1600009547321" />
+    <state width="1638" height="461" key="GridCell.Tab.0.left" timestamp="1600009547320">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state width="1638" height="461" key="GridCell.Tab.0.left/0.23.1680.1027@0.23.1680.1027" timestamp="1600008619378" />
-    <state width="1638" height="461" key="GridCell.Tab.0.right" timestamp="1600008619379">
+    <state width="1638" height="461" key="GridCell.Tab.0.left/0.23.1680.1027@0.23.1680.1027" timestamp="1600009547320" />
+    <state width="1638" height="461" key="GridCell.Tab.0.right" timestamp="1600009547322">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state width="1638" height="461" key="GridCell.Tab.0.right/0.23.1680.1027@0.23.1680.1027" timestamp="1600008619379" />
-    <state width="1638" height="461" key="GridCell.Tab.1.bottom" timestamp="1600008619381">
+    <state width="1638" height="461" key="GridCell.Tab.0.right/0.23.1680.1027@0.23.1680.1027" timestamp="1600009547322" />
+    <state width="1638" height="461" key="GridCell.Tab.1.bottom" timestamp="1600009547589">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state width="1638" height="461" key="GridCell.Tab.1.bottom/0.23.1680.1027@0.23.1680.1027" timestamp="1600008619381" />
-    <state width="1638" height="461" key="GridCell.Tab.1.center" timestamp="1600008619380">
+    <state width="1638" height="461" key="GridCell.Tab.1.bottom/0.23.1680.1027@0.23.1680.1027" timestamp="1600009547589" />
+    <state width="1638" height="461" key="GridCell.Tab.1.center" timestamp="1600009547588">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state width="1638" height="461" key="GridCell.Tab.1.center/0.23.1680.1027@0.23.1680.1027" timestamp="1600008619380" />
-    <state width="1638" height="461" key="GridCell.Tab.1.left" timestamp="1600008619380">
+    <state width="1638" height="461" key="GridCell.Tab.1.center/0.23.1680.1027@0.23.1680.1027" timestamp="1600009547588" />
+    <state width="1638" height="461" key="GridCell.Tab.1.left" timestamp="1600009547587">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state width="1638" height="461" key="GridCell.Tab.1.left/0.23.1680.1027@0.23.1680.1027" timestamp="1600008619380" />
-    <state width="1638" height="461" key="GridCell.Tab.1.right" timestamp="1600008619380">
+    <state width="1638" height="461" key="GridCell.Tab.1.left/0.23.1680.1027@0.23.1680.1027" timestamp="1600009547587" />
+    <state width="1638" height="461" key="GridCell.Tab.1.right" timestamp="1600009547589">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state width="1638" height="461" key="GridCell.Tab.1.right/0.23.1680.1027@0.23.1680.1027" timestamp="1600008619380" />
+    <state width="1638" height="461" key="GridCell.Tab.1.right/0.23.1680.1027@0.23.1680.1027" timestamp="1600009547589" />
     <state x="378" y="198" key="Maven.ArtifactSearchDialog" timestamp="1599897522763">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
@@ -572,6 +572,16 @@
           <url>file://$PROJECT_DIR$/src/com/programming/booking/exam2/problem3/Solution.java</url>
           <line>111</line>
           <option name="timeStamp" value="13" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/programming/booking/exam2/problem3/TestSolution.java</url>
+          <line>39</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/programming/booking/exam2/problem3/Solution.java</url>
+          <line>108</line>
+          <option name="timeStamp" value="15" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
