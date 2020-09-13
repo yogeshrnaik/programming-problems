@@ -24,36 +24,26 @@ class Result {
 
     public static List<String> funWithAnagrams(List<String> text) {
         // Write your code here
-
-        List<String> toRemove = new ArrayList<>();
-
-        for (int i=0; i<text.size()-1; i++) {
-            for (int j=i+1; j <text.size(); j++) {
-                if (isAnagram(text.get(i), text.get(j))) {
-                    toRemove.add(text.get(j));
-                }
+        List<String> result = new ArrayList<>();
+        Set<String> anagramsFound = new HashSet<>();
+        for (String word : text) {
+            String sortedWord = sortChars(word);
+            if (!anagramsFound.contains(sortedWord)) {
+                result.add(word);
+                anagramsFound.add(sortedWord);
             }
         }
-
-        text.removeAll(toRemove);
-
-        Collections.sort(text);
-        return text;
+        Collections.sort(result);
+        return result;
     }
 
-    static boolean isAnagram(String s1, String s2) {
-        if (s1.length() != s2.length()) {
-            return false;
-        }
-
-        char[] arrayS1 = s1.toLowerCase().toCharArray();
-        char[] arrayS2 = s2.toLowerCase().toCharArray();
-        Arrays.sort(arrayS1);
-        Arrays.sort(arrayS2);
-        return Arrays.equals(arrayS1, arrayS2);
+    public static String sortChars(String word) {
+        char[] wordChars = word.toCharArray();
+        Arrays.sort(wordChars);
+        return new String(wordChars);
     }
-
 }
+
 public class Solution {
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));

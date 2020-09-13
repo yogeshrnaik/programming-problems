@@ -5,14 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="292b0e8e-3cfa-4ab4-997a-cf8e439fa540" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/programming/booking/problem1/FindBestHotel.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/programming/booking/exam1/problem1/FindBestHotel.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/programming/booking/problem1/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/programming/booking/exam1/problem1/Solution.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/programming/booking/problem2/MergeOverlappingIntervals.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/programming/booking/exam1/problem2/MergeOverlappingIntervals.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/programming/booking/problem2/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/programming/booking/exam1/problem2/Solution.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/programming/booking/problem3/ArrangeEnggInAllPossibleTeams-1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/programming/booking/exam1/problem3/ArrangeEnggInAllPossibleTeams-1.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/programming/booking/problem3/ArrangeEnggInAllPossibleTeams-2.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/programming/booking/exam1/problem3/ArrangeEnggInAllPossibleTeams-2.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/programming/booking/problem3/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/programming/booking/exam1/problem3/Solution.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/programming/booking/exam2/problem1/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/programming/booking/exam2/problem1/Solution.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -427,7 +420,7 @@
       <workItem from="1599897662260" duration="508000" />
       <workItem from="1599898187397" duration="4260000" />
       <workItem from="1599975324745" duration="11111000" />
-      <workItem from="1600002809711" duration="1698000" />
+      <workItem from="1600002809711" duration="2125000" />
     </task>
     <servers />
   </component>
