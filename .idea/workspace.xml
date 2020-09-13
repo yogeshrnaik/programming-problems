@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="292b0e8e-3cfa-4ab4-997a-cf8e439fa540" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/programming/spotify/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/programming/spotify/Solution.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/programming/hackerrank/diagonal_diff/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/programming/hackerrank/diagonal_diff/Solution.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,7 +78,7 @@
       <command value="mvn compile" />
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.TestGenerateCombinations">
+  <component name="RunManager" selected="JUnit.TestGcdProblem">
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
       <module name="" />
       <option name="ACTIVITY_CLASS" value="" />
@@ -263,6 +263,38 @@
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <method v="2" />
     </configuration>
+    <configuration name="TestExpenseReport" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="programming-problems" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.programming.expense.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.programming.expense" />
+      <option name="MAIN_CLASS_NAME" value="com.programming.expense.TestExpenseReport" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestGcdProblem" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="programming-problems" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.programming.gcd.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.programming.gcd" />
+      <option name="MAIN_CLASS_NAME" value="com.programming.gcd.TestGcdProblem" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="TestGenerateCombinations" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="programming-problems" />
       <extension name="coverage">
@@ -274,40 +306,6 @@
       <option name="PACKAGE_NAME" value="com.programming.spotify" />
       <option name="MAIN_CLASS_NAME" value="com.programming.spotify.TestGenerateCombinations" />
       <option name="TEST_OBJECT" value="class" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TestGenerateCombinations.generateCombination_multipleLists_withSingleElement" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="programming-problems" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.programming.spotify.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.programming.spotify" />
-      <option name="MAIN_CLASS_NAME" value="com.programming.spotify.TestGenerateCombinations" />
-      <option name="METHOD_NAME" value="generateCombination_multipleLists_withSingleElement" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TestGenerateCombinations.generateCombination_singleList" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="programming-problems" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.programming.spotify.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.programming.spotify" />
-      <option name="MAIN_CLASS_NAME" value="com.programming.spotify.TestGenerateCombinations" />
-      <option name="METHOD_NAME" value="generateCombination_singleList" />
-      <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -383,11 +381,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.TestGcdProblem" />
+        <item itemvalue="JUnit.TestExpenseReport" />
         <item itemvalue="JUnit.TestGenerateCombinations" />
         <item itemvalue="JUnit.TestGenerateCombinations.generateCombination_threeLists_withMultipleElement" />
         <item itemvalue="JUnit.TestGenerateCombinations.generateCombination_twoLists_withMultipleElement" />
-        <item itemvalue="JUnit.TestGenerateCombinations.generateCombination_multipleLists_withSingleElement" />
-        <item itemvalue="JUnit.TestGenerateCombinations.generateCombination_singleList" />
       </list>
     </recent_temporary>
   </component>
@@ -418,7 +416,7 @@
       <workItem from="1599897395704" duration="250000" />
       <workItem from="1599897662260" duration="508000" />
       <workItem from="1599898187397" duration="4260000" />
-      <workItem from="1599975324745" duration="3506000" />
+      <workItem from="1599975324745" duration="5743000" />
     </task>
     <servers />
   </component>
@@ -447,22 +445,22 @@
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
     <state x="423" y="208" key="#com.intellij.openapi.keymap.impl.ui.EditKeymapsDialog/0.23.1680.1027@0.23.1680.1027" timestamp="1599898093558" />
-    <state width="1638" height="414" key="GridCell.Tab.0.bottom" timestamp="1599979122316">
+    <state width="1638" height="414" key="GridCell.Tab.0.bottom" timestamp="1599979749872">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state width="1638" height="414" key="GridCell.Tab.0.bottom/0.23.1680.1027@0.23.1680.1027" timestamp="1599979122316" />
-    <state width="1638" height="414" key="GridCell.Tab.0.center" timestamp="1599979122316">
+    <state width="1638" height="414" key="GridCell.Tab.0.bottom/0.23.1680.1027@0.23.1680.1027" timestamp="1599979749872" />
+    <state width="1638" height="414" key="GridCell.Tab.0.center" timestamp="1599979749871">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state width="1638" height="414" key="GridCell.Tab.0.center/0.23.1680.1027@0.23.1680.1027" timestamp="1599979122316" />
-    <state width="1638" height="414" key="GridCell.Tab.0.left" timestamp="1599979122315">
+    <state width="1638" height="414" key="GridCell.Tab.0.center/0.23.1680.1027@0.23.1680.1027" timestamp="1599979749871" />
+    <state width="1638" height="414" key="GridCell.Tab.0.left" timestamp="1599979749870">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state width="1638" height="414" key="GridCell.Tab.0.left/0.23.1680.1027@0.23.1680.1027" timestamp="1599979122315" />
-    <state width="1638" height="414" key="GridCell.Tab.0.right" timestamp="1599979122316">
+    <state width="1638" height="414" key="GridCell.Tab.0.left/0.23.1680.1027@0.23.1680.1027" timestamp="1599979749870" />
+    <state width="1638" height="414" key="GridCell.Tab.0.right" timestamp="1599979749871">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state width="1638" height="414" key="GridCell.Tab.0.right/0.23.1680.1027@0.23.1680.1027" timestamp="1599979122316" />
+    <state width="1638" height="414" key="GridCell.Tab.0.right/0.23.1680.1027@0.23.1680.1027" timestamp="1599979749871" />
     <state width="1638" height="461" key="GridCell.Tab.1.bottom" timestamp="1599901348307">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
