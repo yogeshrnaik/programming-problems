@@ -1,4 +1,4 @@
-package com.programming.booking.problem1;
+package com.programming.booking.exam1.problem1;
 
 import java.util.ArrayList;
 import java.util.Collections;

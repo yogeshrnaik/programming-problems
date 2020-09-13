@@ -1,4 +1,4 @@
-package com.programming.booking.problem3;
+package com.programming.booking.exam1.problem3;
 
 import java.util.Scanner;
 
