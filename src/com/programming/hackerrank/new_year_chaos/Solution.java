@@ -1,12 +1,6 @@
 package com.programming.hackerrank.new_year_chaos;
 
-import java.io.*;
-import java.math.*;
-import java.security.*;
-import java.text.*;
-import java.util.*;
-import java.util.concurrent.*;
-import java.util.regex.*;
+import java.util.Scanner;
 
 /**
  * https://www.hackerrank.com/challenges/new-year-chaos/problem
@@ -16,13 +10,26 @@ public class Solution {
     // Complete the minimumBribes function below.
     static void minimumBribes(int[] q) {
         int minBribes = 0;
-        for (int i=0; i < q.length; i++) {
-            if (Math.abs(q[i] - (i + 1)) > 2) {
+
+        int expectedFirst = 1;
+        int expectedSecond = 2;
+        int expectedThird = 3;
+
+        for (int i = 0; i < q.length; ++i) {
+            if (q[i] == expectedFirst) {
+                expectedFirst = expectedSecond;
+                expectedSecond = expectedThird;
+                ++expectedThird;
+            } else if (q[i] == expectedSecond) {
+                ++minBribes;
+                expectedSecond = expectedThird;
+                ++expectedThird;
+            } else if (q[i] == expectedThird) {
+                minBribes += 2;
+                ++expectedThird;
+            } else {
                 System.out.println("Too chaotic");
                 return;
-            } else if (q[i] != i+1 && q[i] > i+1) {
-                // position in queue is not as original
-                minBribes += Math.abs(q[i] - (i+1));
             }
         }
 

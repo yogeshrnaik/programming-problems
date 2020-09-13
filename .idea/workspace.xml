@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="292b0e8e-3cfa-4ab4-997a-cf8e439fa540" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/programming/hackerrank/new_year_chaos/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/programming/hackerrank/new_year_chaos/Solution.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,7 +80,7 @@
       <command value="mvn compile" />
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.TestRepeatedString.testRepeatedString">
+  <component name="RunManager" selected="JUnit.TestNewYearChaos.testSample">
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
       <module name="" />
       <option name="ACTIVITY_CLASS" value="" />
@@ -312,17 +313,17 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TestGenerateCombinations.generateCombination_threeLists_withMultipleElement" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TestNewYearChaos.testSample" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="programming-problems" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.programming.spotify.*" />
+          <option name="PATTERN" value="com.programming.hackerrank.new_year_chaos.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.programming.spotify" />
-      <option name="MAIN_CLASS_NAME" value="com.programming.spotify.TestGenerateCombinations" />
-      <option name="METHOD_NAME" value="generateCombination_threeLists_withMultipleElement" />
+      <option name="PACKAGE_NAME" value="com.programming.hackerrank.new_year_chaos" />
+      <option name="MAIN_CLASS_NAME" value="com.programming.hackerrank.new_year_chaos.TestNewYearChaos" />
+      <option name="METHOD_NAME" value="testSample" />
       <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
       <method v="2">
@@ -382,11 +383,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.TestNewYearChaos.testSample" />
         <item itemvalue="JUnit.TestRepeatedString.testRepeatedString" />
         <item itemvalue="JUnit.TestGcdProblem" />
         <item itemvalue="JUnit.TestExpenseReport" />
         <item itemvalue="JUnit.TestGenerateCombinations" />
-        <item itemvalue="JUnit.TestGenerateCombinations.generateCombination_threeLists_withMultipleElement" />
       </list>
     </recent_temporary>
   </component>
@@ -417,7 +418,7 @@
       <workItem from="1599897395704" duration="250000" />
       <workItem from="1599897662260" duration="508000" />
       <workItem from="1599898187397" duration="4260000" />
-      <workItem from="1599975324745" duration="8992000" />
+      <workItem from="1599975324745" duration="11111000" />
     </task>
     <servers />
   </component>
@@ -450,22 +451,22 @@
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
     <state x="610" y="438" width="930" height="205" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.23.1680.1027@0.23.1680.1027" timestamp="1599982327397" />
-    <state width="1638" height="414" key="GridCell.Tab.0.bottom" timestamp="1599985307157">
+    <state width="1638" height="414" key="GridCell.Tab.0.bottom" timestamp="1599987054275">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state width="1638" height="414" key="GridCell.Tab.0.bottom/0.23.1680.1027@0.23.1680.1027" timestamp="1599985307157" />
-    <state width="1638" height="414" key="GridCell.Tab.0.center" timestamp="1599985307156">
+    <state width="1638" height="414" key="GridCell.Tab.0.bottom/0.23.1680.1027@0.23.1680.1027" timestamp="1599987054275" />
+    <state width="1638" height="414" key="GridCell.Tab.0.center" timestamp="1599987054274">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state width="1638" height="414" key="GridCell.Tab.0.center/0.23.1680.1027@0.23.1680.1027" timestamp="1599985307156" />
-    <state width="1638" height="414" key="GridCell.Tab.0.left" timestamp="1599985307156">
+    <state width="1638" height="414" key="GridCell.Tab.0.center/0.23.1680.1027@0.23.1680.1027" timestamp="1599987054274" />
+    <state width="1638" height="414" key="GridCell.Tab.0.left" timestamp="1599987054274">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state width="1638" height="414" key="GridCell.Tab.0.left/0.23.1680.1027@0.23.1680.1027" timestamp="1599985307156" />
-    <state width="1638" height="414" key="GridCell.Tab.0.right" timestamp="1599985307157">
+    <state width="1638" height="414" key="GridCell.Tab.0.left/0.23.1680.1027@0.23.1680.1027" timestamp="1599987054274" />
+    <state width="1638" height="414" key="GridCell.Tab.0.right" timestamp="1599987054275">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state width="1638" height="414" key="GridCell.Tab.0.right/0.23.1680.1027@0.23.1680.1027" timestamp="1599985307157" />
+    <state width="1638" height="414" key="GridCell.Tab.0.right/0.23.1680.1027@0.23.1680.1027" timestamp="1599987054275" />
     <state width="1638" height="461" key="GridCell.Tab.1.bottom" timestamp="1599985222670">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
