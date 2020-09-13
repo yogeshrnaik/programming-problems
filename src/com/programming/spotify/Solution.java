@@ -14,20 +14,45 @@ class Solution {
 
         if (input == null || input.size() == 0) {
             result.add("");
+            return result;
         }
         if (input != null && input.size() == 1) {
             result.addAll(input.get(0));
+            return result;
         }
 
-        if (input.size() == 2) {
-            for (String i : input.get(0)) {
-                for (String j : input.get(1)) {
-                    result.add(i + j);
-                }
-            }
-        }
+        combination(input, result, 0, "");
+//        if (input.size() == 2) {
+//            for (String i : input.get(0)) {
+//                for (String j : input.get(1)) {
+//                    result.add(i + j);
+//                }
+//            }
+//        }
+
+//        if (input.size() == 3) {
+//            for (String i : input.get(0)) {
+//                for (String j : input.get(1)) {
+//                    for (String k : input.get(2)) {
+//                        result.add(i + j + k);
+//                    }
+//                }
+//            }
+//        }
 
         return result;
+    }
+
+    static void combination(List<List<String>> input, List<String> result, int start, String startChar) {
+        if (start == input.size() - 1) {
+            for (String s : input.get(input.size()-1)) {
+                result.add(startChar + s);
+            }
+        } else {
+            for (String v : input.get(start)) {
+                combination(input, result, start + 1, startChar+v);
+            }
+        }
     }
 }
 /**

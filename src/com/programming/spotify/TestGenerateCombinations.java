@@ -35,6 +35,17 @@ public class TestGenerateCombinations {
         Assert.assertEquals(createList("ac", "ad", "bc", "bd"), result);
     }
 
+    @Test
+    public void generateCombination_threeLists_withMultipleElement() {
+        Solution sol = new Solution();
+        List<List<String>> input = new ArrayList<>();
+        input.add(createList("a", "b"));
+        input.add(createList("c"));
+        input.add(createList("d", "e"));
+        List<String> result = sol.generateCombinations(input);
+        Assert.assertEquals(createList("acd", "ace", "bcd", "bce"), result);
+    }
+
     private List<String> createList(String... values) {
         List<String> result = new ArrayList<>();
         for (String v : values) {
