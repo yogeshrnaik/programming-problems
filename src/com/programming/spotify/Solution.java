@@ -12,6 +12,21 @@ class Solution {
     public List<String> generateCombinations(List<List<String>> input) {
         List<String> result = new ArrayList<>();
 
+        if (input == null || input.size() == 0) {
+            result.add("");
+        }
+        if (input != null && input.size() == 1) {
+            result.addAll(input.get(0));
+        }
+
+        if (input.size() == 2) {
+            for (String i : input.get(0)) {
+                for (String j : input.get(1)) {
+                    result.add(i + j);
+                }
+            }
+        }
+
         return result;
     }
 }
