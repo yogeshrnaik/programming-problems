@@ -1,5 +1,5 @@
 import unittest
-from leetcode_62.union_paths import Solution
+from union_paths.union_paths import Solution
 
 
 class TestUnionPaths(unittest.TestCase):
