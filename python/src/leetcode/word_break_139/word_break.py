@@ -20,6 +20,3 @@ class Solution:
 
         memo[s] = False
         return False
-
-
-    
