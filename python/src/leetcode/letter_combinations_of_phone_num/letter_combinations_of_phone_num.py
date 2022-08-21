@@ -2,6 +2,7 @@ from typing import List
 
 
 class Solution:
+
     def letterCombinations(self, digits: str) -> List[str]:
         numToChars = {
             '2': ['a', 'b', 'c'],
@@ -22,10 +23,10 @@ class Solution:
         self.generate(charsList, result, 0, "")
         return result
 
-    def generate(self, chars, result, start, startChar):
-        if start == len(chars) - 1:
-            for c in chars[start]:
+    def generate(self, charsList, result, start, startChar):
+        if start == len(charsList) - 1:
+            for c in charsList[start]:
                 result.append(startChar + c)
-        elif start < len(chars) - 1:
-            for c in chars[start]:
-                self.generate(chars, result, start + 1, startChar + c)
+        elif start < len(charsList) - 1:
+            for c in charsList[start]:
+                self.generate(charsList, result, start + 1, startChar + c)
