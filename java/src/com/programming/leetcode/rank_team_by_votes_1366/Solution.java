@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
  */
 class Solution {
     public String rankTeams(String[] votes) {
-        return using2dArray(votes);
+        return usingMap(votes);
     }
 
     private String using2dArray(String[] votes) {
@@ -52,10 +52,7 @@ class Solution {
             }
             return e1.getKey() - e2.getKey();
         });
-        List<Character> result = entries.stream().map(e -> e.getKey()).collect(Collectors.toList());
-        String output = result.stream().map(String::valueOf).collect(Collectors.joining());
-        System.out.println("output : " + output);
-        return output;
+        return entries.stream().map(e -> String.valueOf(e.getKey())).collect(Collectors.joining());
     }
 
     private static void print(int[][] voteCount) {
