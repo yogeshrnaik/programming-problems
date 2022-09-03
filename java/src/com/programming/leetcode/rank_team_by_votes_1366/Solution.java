@@ -1,9 +1,6 @@
 package com.programming.leetcode.rank_team_by_votes_1366;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -11,7 +8,12 @@ import java.util.stream.Collectors;
  */
 class Solution {
     public String rankTeams(String[] votes) {
+        return using2dArray(votes);
+    }
+
+    private String using2dArray(String[] votes) {
         int[][] voteCount = new int[26][votes[0].length()];
+
         for (String vote : votes) {
             for (int i = 0; i < vote.length(); i++) {
                 char team = vote.charAt(i);
@@ -19,14 +21,41 @@ class Solution {
             }
         }
 
-        return new String(votes[0].toCharArray()).chars().mapToObj( c -> (char)c).sorted((team1, team2) -> {
-            for (int i=0; i<voteCount[0].length; i++) {
-                if (voteCount[team1-'A'][i] != voteCount[team2-'A'][i]) {
-                    return voteCount[team2-'A'][i] - voteCount[team1-'A'][i];
+        return new String(votes[0].toCharArray()).chars().mapToObj(c -> (char) c).sorted((team1, team2) -> {
+            for (int i = 0; i < voteCount[0].length; i++) {
+                if (voteCount[team1 - 'A'][i] != voteCount[team2 - 'A'][i]) {
+                    return voteCount[team2 - 'A'][i] - voteCount[team1 - 'A'][i];
                 }
             }
             return team1 - team2;
         }).map(Object::toString).collect(Collectors.joining());
+
+    }
+
+    private String usingMap(String[] votes) {
+        Map<Character, int[]> ratings = new HashMap<>();
+        for (String vote : votes) {
+            for (int i = 0; i < vote.length(); i++) {
+                char team = vote.charAt(i);
+                ratings.putIfAbsent(team, new int[votes[0].length()]);
+                ratings.get(team)[i]++;
+            }
+        }
+
+        printMap(ratings);
+        List<Map.Entry<Character, int[]>> entries = new LinkedList<>(ratings.entrySet());
+        Collections.sort(entries, (e1, e2) -> {
+            for (int i = 0; i < votes[0].length(); i++) {
+                if (e1.getValue()[i] != e2.getValue()[i]) {
+                    return e2.getValue()[i] - e1.getValue()[i];
+                }
+            }
+            return e1.getKey() - e2.getKey();
+        });
+        List<Character> result = entries.stream().map(e -> e.getKey()).collect(Collectors.toList());
+        String output = result.stream().map(String::valueOf).collect(Collectors.joining());
+        System.out.println("output : " + output);
+        return output;
     }
 
     private static void print(int[][] voteCount) {
@@ -37,5 +66,16 @@ class Solution {
             }
             System.out.println();
         }
+    }
+
+    private static void printMap(Map<Character, int[]> ratings) {
+        for (Map.Entry<Character, int[]> entry : ratings.entrySet()) {
+            System.out.print(entry.getKey() + " ");
+            for (int j = 0; j < entry.getValue().length; j++) {
+                System.out.print(" " + entry.getValue()[j]);
+            }
+            System.out.println();
+        }
+        System.out.println("-------------------");
     }
 }
