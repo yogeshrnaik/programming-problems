@@ -15,6 +15,6 @@ public class TestVoteCounting {
                 new Vote("A", "B", "C"),
                 new Vote("B", "A", "C")));
 
-        Assert.assertEquals(List.of("A", "B", "C"), winners);
+        Assert.assertEquals(List.of("B", "A", "C"), winners);
     }
 }

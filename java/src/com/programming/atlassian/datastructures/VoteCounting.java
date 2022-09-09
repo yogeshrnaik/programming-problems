@@ -50,25 +50,68 @@ If two people get same points, then the one with highest points first wins.
 public class VoteCounting {
 
     public List<String> findWinner(List<Vote> votes) {
-        Map<String, Integer> voteCount = getVoteCount(votes);
+        Map<String, CandidateVote> voteCount = getVoteCount(votes);
 
-        List<Map.Entry<String, Integer>> sorted = voteCount.entrySet().stream()
-                .sorted((vc1, vc2) -> vc2.getValue() - vc1.getValue())
-                .collect(Collectors.toList());
+        List<Map.Entry<String, CandidateVote>> sorted = voteCount.entrySet().stream()
+                .sorted((vc1, vc2) -> {
+                    CandidateVote cv1 = vc1.getValue();
+                    CandidateVote cv2 = vc2.getValue();
+                    if (cv2.getPoints() != cv1.getPoints()) {
+                        return cv2.getPoints() - cv1.getPoints();
+                    }
+                    if (cv2.getLastVotePosition() != cv1.getLastVotePosition()) {
+                        return cv1.getLastVotePosition() - cv2.getLastVotePosition();
+                    }
+                    return cv1.getLastVoteIndex() - cv2.getLastVoteIndex();
+                }).collect(Collectors.toList());
 
         return sorted.stream().map(vc -> vc.getKey()).collect(Collectors.toList());
     }
 
-    private Map<String, Integer> getVoteCount(List<Vote> votes) {
-        Map<String, Integer> voteCount = new HashMap<>();
-        for (Vote vote : votes) {
-            List<String> candidates = vote.getCandidates();
+    private Map<String, CandidateVote> getVoteCount(List<Vote> votes) {
+        Map<String, CandidateVote> voteCount = new HashMap<>();
+        for (int v = 0; v < votes.size(); v++) {
+            List<String> candidates = votes.get(v).getCandidates();
             for (int i = 0; i < candidates.size(); i++) {
                 String candidate = candidates.get(i);
-                int points = 3 - i;
-                voteCount.put(candidate, points + voteCount.getOrDefault(candidates.get(i), 0));
+                CandidateVote cvote = voteCount.get(candidate);
+                if (cvote == null) {
+                    cvote = new CandidateVote(candidate);
+                }
+                cvote.addVote(v, i, 3 - i);
+                voteCount.put(candidate, cvote);
             }
         }
         return voteCount;
+    }
+}
+
+class CandidateVote {
+
+    private String candidate;
+    private int points;
+    private int lastVoteIndex;
+    private int lastVotePosition;
+
+    public CandidateVote(String candidate) {
+        this.candidate = candidate;
+    }
+
+    public void addVote(int lastVoteIndex, int lastVotePosition, int points) {
+        this.lastVoteIndex = lastVoteIndex;
+        this.lastVotePosition = lastVotePosition;
+        this.points += points;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public int getLastVoteIndex() {
+        return lastVoteIndex;
+    }
+
+    public int getLastVotePosition() {
+        return lastVotePosition;
     }
 }
