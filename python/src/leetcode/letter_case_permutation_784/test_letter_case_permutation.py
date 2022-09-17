@@ -13,3 +13,4 @@ class TestLetterCasePermutation(unittest.TestCase):
         self.assertListEqual(["a1b", "a1B", "A1b", "A1B"], Solution().letterCasePermutation("a1b"))
         self.assertListEqual(["aa", "aA", "Aa", "AA"], Solution().letterCasePermutation("aa"))
         self.assertListEqual(["A", "a"], Solution().letterCasePermutation("A"))
+        self.assertCountEqual(["a", "A"], Solution().letterCasePermutation("a"))
