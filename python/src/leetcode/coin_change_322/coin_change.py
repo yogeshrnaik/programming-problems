@@ -2,7 +2,7 @@ import sys
 from typing import List
 
 
-# Problem: https://leetcode.com/problems/min-cost-climbing-stairs/
+# Problem: https://leetcode.com/problems/coin-change/
 class Solution:
     def coinChange(self, coins: List[int], amount: int) -> int:
         memo = {}
