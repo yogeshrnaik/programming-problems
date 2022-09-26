@@ -1,6 +1,6 @@
 import unittest
 
-from leetcode.letter_combinations_of_phone_num.letter_combinations_of_phone_num import Solution
+from leetcode.letter_combinations_of_phone_num_17.letter_combinations_of_phone_num import Solution
 
 
 class TestLetterCombinationsOfPhoneNumber(unittest.TestCase):
