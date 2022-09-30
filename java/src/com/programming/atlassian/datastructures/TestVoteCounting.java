@@ -10,10 +10,14 @@ public class TestVoteCounting {
     @Test
     public void testWinner() {
         VoteCounting voteCounting = new VoteCounting();
-        List<String> winners = voteCounting.findWinner(List.of(new Vote("A", "B", "C"),
-                new Vote("C", "B", "A"),
-                new Vote("A", "B", "C"),
-                new Vote("B", "A", "C")));
+        List<String> winners = voteCounting.findWinner(
+                List.of(
+                        new Vote("A", "B", "C"),
+                        new Vote("C", "B", "A"),
+                        new Vote("A", "B", "C"),
+                        new Vote("B", "A", "C")
+                )
+        );
 
         Assert.assertEquals(List.of("B", "A", "C"), winners);
     }
