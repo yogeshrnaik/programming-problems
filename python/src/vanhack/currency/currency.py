@@ -1,6 +1,9 @@
 """
 Overview
-Create a class Currency with two methods, numWays(amount) and minChange(amount). A Currency instance will be initialized with an array of denominations of coins. The class will use its two methods to determine how many ways you can make change with the denominations and what the minimum count of each coin to reach the amount of change is.
+Create a class Currency with two methods, numWays(amount) and minChange(amount).
+A Currency instance will be initialized with an array of denominations of coins.
+The class will use its two methods to determine how many ways you can make change with the denominations
+and what the minimum count of each coin to reach the amount of change is.
 
 This set will be used in the following examples:
 
