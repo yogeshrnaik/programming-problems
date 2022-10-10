@@ -95,7 +95,7 @@ class WithPriorityQueue {
                 new Comparator<Integer>() {
                     @Override
                     public int compare(Integer n1, Integer n2) {
-                        return n2 - n1;
+                        return n1 - n2;
                     }
                 }
         );
@@ -103,7 +103,7 @@ class WithPriorityQueue {
         rowValues.offer(node.val);
         rowToValues.put(row, rowValues);
         colToRowValues.put(col, rowToValues);
-        if (node.left != null) dfs(col - 1, row - 1, node.left);
-        if (node.right != null) dfs(col + 1, row - 1, node.right);
+        if (node.left != null) dfs(col - 1, row + 1, node.left);
+        if (node.right != null) dfs(col + 1, row + 1, node.right);
     }
 }
