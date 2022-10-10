@@ -20,7 +20,7 @@ class TreeNode {
     }
 }
 
-
+// Problem: https://leetcode.com/problems/vertical-order-traversal-of-a-binary-tree/
 public class Solution {
     public List<List<Integer>> verticalTraversal(TreeNode root) {
 //        return solve(root);
@@ -71,14 +71,14 @@ public class Solution {
 }
 
 class WithPriorityQueue {
-    private static TreeMap<Integer, TreeMap<Integer, PriorityQueue<Integer>>> rowToColToValues;
+    private static TreeMap<Integer, TreeMap<Integer, PriorityQueue<Integer>>> colToRowValues;
 
     public static List<List<Integer>> verticalTraversal(TreeNode root) {
-        rowToColToValues = new TreeMap<>();
+        colToRowValues = new TreeMap<>();
         List<List<Integer>> result = new ArrayList<>();
         if (root == null) return result;
         dfs(0, 0, root);
-        for (TreeMap<Integer, PriorityQueue<Integer>> value : rowToColToValues.values()) {
+        for (TreeMap<Integer, PriorityQueue<Integer>> value : colToRowValues.values()) {
             List<Integer> temp = new ArrayList<>();
             for (PriorityQueue<Integer> pq : value.values()) {
                 while (!pq.isEmpty()) {
@@ -90,8 +90,8 @@ class WithPriorityQueue {
         return result;
     }
 
-    private static void dfs(int row, int col, TreeNode node) {
-        TreeMap<Integer, PriorityQueue<Integer>> colToValues = rowToColToValues.containsKey(row) ? rowToColToValues.get(row) : new TreeMap<Integer, PriorityQueue<Integer>>(
+    private static void dfs(int col, int row, TreeNode node) {
+        TreeMap<Integer, PriorityQueue<Integer>> rowToValues = colToRowValues.containsKey(col) ? colToRowValues.get(col) : new TreeMap<Integer, PriorityQueue<Integer>>(
                 new Comparator<Integer>() {
                     @Override
                     public int compare(Integer n1, Integer n2) {
@@ -99,11 +99,11 @@ class WithPriorityQueue {
                     }
                 }
         );
-        PriorityQueue<Integer> colValues = colToValues.containsKey(col) ? colToValues.get(col) : new PriorityQueue<Integer>();
-        colValues.offer(node.val);
-        colToValues.put(col, colValues);
-        rowToColToValues.put(row, colToValues);
-        if (node.left != null) dfs(row - 1, col - 1, node.left);
-        if (node.right != null) dfs(row + 1, col - 1, node.right);
+        PriorityQueue<Integer> rowValues = rowToValues.containsKey(row) ? rowToValues.get(row) : new PriorityQueue<Integer>();
+        rowValues.offer(node.val);
+        rowToValues.put(row, rowValues);
+        colToRowValues.put(col, rowToValues);
+        if (node.left != null) dfs(col - 1, row - 1, node.left);
+        if (node.right != null) dfs(col + 1, row - 1, node.right);
     }
 }
