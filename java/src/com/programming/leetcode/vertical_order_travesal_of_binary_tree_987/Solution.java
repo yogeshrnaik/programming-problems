@@ -91,14 +91,7 @@ class WithPriorityQueue {
     }
 
     private static void dfs(int col, int row, TreeNode node) {
-        TreeMap<Integer, PriorityQueue<Integer>> rowToValues = colToRowValues.containsKey(col) ? colToRowValues.get(col) : new TreeMap<Integer, PriorityQueue<Integer>>(
-                new Comparator<Integer>() {
-                    @Override
-                    public int compare(Integer n1, Integer n2) {
-                        return n1 - n2;
-                    }
-                }
-        );
+        TreeMap<Integer, PriorityQueue<Integer>> rowToValues = colToRowValues.containsKey(col) ? colToRowValues.get(col) : new TreeMap<Integer, PriorityQueue<Integer>>();
         PriorityQueue<Integer> rowValues = rowToValues.containsKey(row) ? rowToValues.get(row) : new PriorityQueue<Integer>();
         rowValues.offer(node.val);
         rowToValues.put(row, rowValues);
