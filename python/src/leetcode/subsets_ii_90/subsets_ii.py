@@ -13,10 +13,12 @@ class Solution:
                 result.append(subset.copy())
                 return
 
+            # include nums[index] in the subset
             subset.append(nums[index])
             dfs(index + 1)
             subset.pop()
 
+            # do not include nums[index] in the subset
             while index + 1 < len(nums) and nums[index] == nums[index + 1]:
                 index += 1
 

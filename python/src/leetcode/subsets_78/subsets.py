@@ -12,9 +12,11 @@ class Solution:
                 result.append(subset.copy())
                 return
 
+            # decision to include nums[index]
             subset.append(nums[index])
             dfs(index + 1)
 
+            # decision to not include nums[index]
             subset.pop()
             dfs(index + 1)
 
