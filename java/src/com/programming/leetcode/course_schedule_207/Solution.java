@@ -5,14 +5,7 @@ import java.util.*;
 // Problem: https://leetcode.com/problems/course-schedule/
 public class Solution {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
-        Map<Integer, List<Integer>> adj = new HashMap<>();
-        for (int i = 0; i < prerequisites.length; i++) {
-            int course = prerequisites[i][0];
-            int mustCourse = prerequisites[i][1];
-            List<Integer> mustCourses = adj.getOrDefault(course, new ArrayList<Integer>());
-            mustCourses.add(mustCourse);
-            adj.put(course, mustCourses);
-        }
+        Map<Integer, List<Integer>> adj = createAdjacencyList(prerequisites);
 
         Set<Integer> visited = new HashSet<>();
 
@@ -22,6 +15,18 @@ public class Solution {
             }
         }
         return true;
+    }
+
+    private Map<Integer, List<Integer>> createAdjacencyList(int[][] prerequisites) {
+        Map<Integer, List<Integer>> adj = new HashMap<>();
+        for (int i = 0; i < prerequisites.length; i++) {
+            int course = prerequisites[i][0];
+            int mustCourse = prerequisites[i][1];
+            List<Integer> mustCourses = adj.getOrDefault(course, new ArrayList<Integer>());
+            mustCourses.add(mustCourse);
+            adj.put(course, mustCourses);
+        }
+        return adj;
     }
 
     private boolean isPossibleToTake(int course, Set<Integer> visited, Map<Integer, List<Integer>> adj) {
