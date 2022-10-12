@@ -4,7 +4,7 @@
 
 class Solution:
     def uniquePaths(self, m: int, n: int) -> int:
-        return self.union_path_with_memoization(m, n)
+        return self.with_dynamic_programming(m, n)
 
     def union_path_with_memoization(self, m: int, n: int, memo={}) -> int:
         if m == 1 and n == 1:
@@ -20,3 +20,17 @@ class Solution:
         path_count = self.union_path_with_memoization(m - 1, n, memo) + self.union_path_with_memoization(m, n - 1, memo)
         memo[key] = path_count
         return memo[key]
+
+    def with_dynamic_programming(self, row: int, col: int):
+        dp = [[0 for i in range(col+1)] for j in range(row+1)]
+        dp[1][1] = 1
+
+        for i in range(row+1):
+            for j in range(col+1):
+                if j+1 <= col:
+                    dp[i][j+1] += dp[i][j]
+                if i+1 <= row:
+                    dp[i+1][j] += dp[i][j]
+
+        print(dp)
+        return dp[row][col]
