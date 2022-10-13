@@ -13,9 +13,8 @@ class Solution {
         for (int n : nums) {
             sum += n;
 
-            if (sums.containsKey(sum - k)) {
-                count += sums.get(sum - k);
-            }
+            int difference = sum - k;
+            count += sums.getOrDefault(difference, 0);
             sums.put(sum, 1 + sums.getOrDefault(sum, 0));
         }
 

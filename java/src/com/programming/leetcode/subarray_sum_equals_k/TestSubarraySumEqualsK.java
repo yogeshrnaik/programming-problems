@@ -14,4 +14,9 @@ public class TestSubarraySumEqualsK {
     public void testSubarraySumEqualsK_sample2() {
         Assert.assertEquals(2, new Solution().subarraySum(new int[]{1, 2, 3}, 3));
     }
+
+    @Test
+    public void testSubarraySumEqualsK_sample3() {
+        Assert.assertEquals(4, new Solution().subarraySum(new int[]{1, -1, 1, 1, 1, 1}, 3));
+    }
 }
