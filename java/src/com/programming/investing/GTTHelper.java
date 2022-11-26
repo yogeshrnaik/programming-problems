@@ -15,8 +15,8 @@ public class GTTHelper {
         GTT prev = orders.get(0);
         for (int i=1; i < orders.size(); i++) {
             int changePercentage = (orders.get(i).quantity - prev.quantity) * 100/prev.quantity;
-            prev = orders.get(i);
             System.out.println("curr: " + orders.get(i).quantity + ", prev: " + prev.quantity + ", changePercentage: " + changePercentage);
+            prev = orders.get(i);
         }
     }
 
