@@ -7,10 +7,17 @@ import java.util.stream.Collectors;
 
 public class GTTHelper {
     public static void main(String[] args) {
-        List<GTT> orders = getGTTOrders(1000, 4, 1.0);
+        List<GTT> orders = getGTTOrders(5000, 5, 1.0);
         int totalQuantity = orders.stream().map(it -> it.quantity).collect(Collectors.summingInt(Integer::intValue));
         System.out.println("totalQuantity: " + totalQuantity);
         System.out.println(orders);
+
+        GTT prev = orders.get(0);
+        for (int i=1; i < orders.size(); i++) {
+            int changePercentage = (orders.get(i).quantity - prev.quantity) * 100/prev.quantity;
+            prev = orders.get(i);
+            System.out.println("curr: " + orders.get(i).quantity + ", prev: " + prev.quantity + ", changePercentage: " + changePercentage);
+        }
     }
 
     private static List<GTT> getGTTOrders(int amountToInvest, int noOfPartialInvestments, double rateOfChangePercentage) {
@@ -54,21 +61,21 @@ class Fibonacci {
             }
 
             currSum += first;
-            quantities.offer(first);
-
-            int diff = Math.abs(amountToInvest - currSum);
-            if (minDiff > diff) {
-                int next = getNextFib(first, second);
-                first = second;
-                second = next;
-                System.out.print(first + " ");
-
-                minDiff = diff;
-                System.out.println("currSum: " + currSum + ", minDiff: " + minDiff);
+            if (currSum > amountToInvest) {
+               quantities.offer(first - (currSum-amountToInvest));
+            } else {
+                quantities.offer(first);
             }
+
+            int next = getNextFib(first, second);
+            first = second;
+            second = next;
+            System.out.print(first + " ");
         }
+
+
         System.out.println();
-        return quantities.stream().collect(Collectors.toList());
+        return quantities.stream().sorted().collect(Collectors.toList());
     }
 
     private static int getNextFib(int prevToPrev, int prev) {
