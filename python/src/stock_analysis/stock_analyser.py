@@ -2,15 +2,25 @@ import csv
 import json
 
 from nsetools import nse, Nse
+from bsedata.bse import BSE
 
 STOCK_CATEGORY = {
-    "CORE": ["HDFCBANK", "HINDUNILVR", "ITC", "RELIANCE", "TCS", "SBIN", "INFY"],
+    "CORE": ["HDFCBANK", "HINDUNILVR", "ITC", "ITC1", "RELIANCE", "TCS", "SBIN", "INFY"],
     "STRONG-NON-CORE": ["EUREKAFORBE", "IRFC", "MAXHEALTH", "MAXVIL", "POONAWALLA"],
     "OTHER-NON-CORE": ["HCC", "HEMIPROP", "IDEA", "ISMTLTD", "MADHAVBAUG-SM", "MAFANG", "RENUKA", "SHREERAMA", "TTML"],
     "PASSIVE": ["GOLDBEES", "JUNIORBEES", "LIQUIDBEES", "NIFTYBEES"],
 }
 
+BSE_CODES = {
+    "EUREKAFORBE": "543482",
+    "GOLDBEES": "590095",
+    "JUNIORBEES": "590104",
+    "LIQUIDBEES": "590096",
+    "NIFTYBEES": "590103",
+}
+
 nse = Nse()
+bse = BSE(update_codes=True)
 
 
 def read_stock_holdings(csv_filepath):
@@ -87,7 +97,7 @@ def write_analysed_stock_holdings(holdings_by_category, category_stats):
 
 def analyse_stock_holdings(holdings):
     categorise_holdings(holdings)
-    holdings.sort(key=lambda h: h["category"])
+    holdings.sort(key=lambda h: h["category"] + h['Instrument'])
     holdings_by_category = group_by_category(holdings)
     print(json.dumps(holdings_by_category, sort_keys=True, indent=2))
     category_stats = stats_by_category(holdings_by_category)
@@ -101,26 +111,25 @@ def print_holdings(holdings):
 
 
 def add_hdfc_securities(holdings):
-    infy = {
-        "category": "CORE",
-        "Instrument": "INFY",
-        "Avg. cost": "551.86",
-        "Qty.": "50",
-    }
-    holdings.append(update_hdfc_security(infy))
-    sbi = {
-        "category": "CORE",
-        "Instrument": "SBIN",
-        "Avg. cost": "182.67",
-        "Qty.": "500",
-    }
-    holdings.append(update_hdfc_security(sbi))
+    holdings.append(update_by_curr_market_price({"Instrument": "INFY", "Avg. cost": "551.86", "Qty.": "50"}))
+    holdings.append(update_by_curr_market_price({"Instrument": "SBIN", "Avg. cost": "182.67", "Qty.": "500"}))
+    holdings.append(update_by_curr_market_price({"Instrument": "ITC1", "Avg. cost": "159.11", "Qty.": "100", }, "ITC"))
 
 
-def update_hdfc_security(holding):
-    details = nse.get_quote(holding["Instrument"])
-    print(details)
+def update_by_curr_market_price(holding, instrument=""):
+    instrument = instrument if instrument else holding["Instrument"]
+    print(f"Getting market price of: {instrument}")
+    details = nse.get_quote(instrument if instrument else holding["Instrument"])
+    if not details:
+        print(f"Market price of: {instrument} not found on NSE")
+        return update_by_bse_curr_market_price(holding, instrument)
+        return holding
 
+    return update_by_nse_curr_market_price(details, holding, instrument)
+
+
+def update_by_nse_curr_market_price(details, holding, instrument):
+    print(f"Market price of: {instrument}: {details['closePrice']}")
     curr_val = float(holding["Qty."]) * float(details["closePrice"])
     invested = float(holding["Qty."]) * float(holding["Avg. cost"])
     holding["LTP"] = details["closePrice"]
@@ -129,9 +138,36 @@ def update_hdfc_security(holding):
     return holding
 
 
+def update_by_bse_curr_market_price(holding, instrument):
+    bse_instrument = BSE_CODES.get(instrument)
+    if not bse_instrument:
+        print(f"BSE code not found for: {instrument}")
+        return holding
+    print(f"Getting market price of: {instrument} on BSE with code: {bse_instrument}")
+    details = bse.getQuote(bse_instrument)
+    if not details:
+        print(f"Market price of: {instrument} not found on BSE with code: {bse_instrument}")
+        return holding
+
+    print(f"bse: {details}")
+    if details['securityID'] != instrument:
+        raise Exception(f"BSE securityID: {details['securityID']} not matching with {instrument}")
+    curr_price = details['currentValue']
+    print(f"Market price of: {instrument} on BSE: {curr_price}")
+    curr_val = float(holding["Qty."]) * float(curr_price)
+    invested = float(holding["Qty."]) * float(holding["Avg. cost"])
+    holding["LTP"] = details["currentValue"]
+    holding["Cur. val"] = curr_val
+    holding["P&L"] = curr_val - invested
+
+    return holding
+
+
 def main():
     holdings = read_stock_holdings(
         "/Users/apple/yogesh/workspace/programming-problems/python/src/stock_analysis/holdings.csv")
+    for h in holdings:
+        update_by_curr_market_price(h)
     add_hdfc_securities(holdings)
     analyse_stock_holdings(holdings)
 
