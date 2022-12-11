@@ -9,6 +9,7 @@ COMPANY_NAME = "CompanyName"
 QUANTITY = "Qty."
 AVG_COST = "Avg. cost"
 CURR_VALUE = "Cur. val"
+NET_CHANGE = "Net chg."
 INVESTED = "INVESTED"
 PROFIT_LOSS = "P&L"
 LTP = "LTP"  # Last Traded Price
@@ -72,7 +73,7 @@ def stats_by_category(holdings_by_category):
                            + sum(float(h[CURR_VALUE]) for h in category_holdings)
         stat[INVESTED] = category_stats.get(f"{category}-{INVESTED}", 0) \
                          + sum(float(h[QUANTITY]) * float(h[AVG_COST]) for h in category_holdings)
-        stat[PROFIT_LOSS] = category_stats.get(f"{category}-P&L", 0) \
+        stat[PROFIT_LOSS] = category_stats.get(f"{category}-{PROFIT_LOSS}", 0) \
                             + sum(float(h[PROFIT_LOSS]) for h in category_holdings)
         category_stats[category] = stat
 
@@ -83,27 +84,47 @@ def stats_by_category(holdings_by_category):
 
 def write_analysed_stock_holdings(holdings_by_category, category_stats):
     global_total = {}
+    output = open("stock_output.csv", "w")
 
     for category, holdings in holdings_by_category.items():
         for h in holdings:
             invested = float(h[QUANTITY]) * float(h[AVG_COST])
             percentage_of_50lacs = 100 * invested / 5000000
+            net_change = 100 * float(h[PROFIT_LOSS]) / invested
             company_name = h.get(COMPANY_NAME, h[INSTRUMENT])
-            print(
-                f"{category},{h[INSTRUMENT]},{company_name},{h[QUANTITY]},{h[AVG_COST]},{invested},{h[LTP]},{h[CURR_VALUE]},{h[PROFIT_LOSS]},{percentage_of_50lacs}%")
+            line = f"{category},{h[INSTRUMENT]},{company_name},{h[QUANTITY]},{h[AVG_COST]},{invested},{h[LTP]}," \
+                   f"{h[CURR_VALUE]},{h[PROFIT_LOSS]},{net_change}%,{percentage_of_50lacs}%"
+            write_line(output, line)
 
-        # print sub total of category
-        category_stat = category_stats[category]
-        print(
-            f"Sub-Total,,,,,{category_stat[INVESTED]},,{category_stat[CURR_VALUE]},{category_stat[PROFIT_LOSS]},{category_stat['% of 50L']}%")
-        print(f",,,,,,,,")
+        category_stat = print_sub_total(category, category_stats, output)
+        calc_global_total(category_stat, global_total)
 
-        # calculate global total
-        global_total[INVESTED] = global_total.get(INVESTED, 0) + category_stat[INVESTED]
-        global_total[CURR_VALUE] = global_total.get(CURR_VALUE, 0) + category_stat[CURR_VALUE]
-        global_total[PROFIT_LOSS] = global_total.get(PROFIT_LOSS, 0) + category_stat[PROFIT_LOSS]
+    print_global_total(global_total, output)
+    output.close()
 
-    print(f"Grand-Total,,,,,{global_total[INVESTED]},,{global_total[CURR_VALUE]},{global_total[PROFIT_LOSS]},")
+
+def print_global_total(global_total, output):
+    line = f"Grand-Total,,,,,{global_total[INVESTED]},,{global_total[CURR_VALUE]},{global_total[PROFIT_LOSS]},,"
+    write_line(output, line)
+
+
+def write_line(output, line):
+    print(line)
+    output.write(line + "\n")
+
+
+def calc_global_total(category_stat, global_total):
+    global_total[INVESTED] = global_total.get(INVESTED, 0) + category_stat[INVESTED]
+    global_total[CURR_VALUE] = global_total.get(CURR_VALUE, 0) + category_stat[CURR_VALUE]
+    global_total[PROFIT_LOSS] = global_total.get(PROFIT_LOSS, 0) + category_stat[PROFIT_LOSS]
+
+
+def print_sub_total(category, category_stats, output):
+    category_stat = category_stats[category]
+    line = f"Sub-Total,,,,,{category_stat[INVESTED]},,{category_stat[CURR_VALUE]},{category_stat[PROFIT_LOSS]},,{category_stat['% of 50L']}%"
+    write_line(output, line)
+    write_line(output, ",,,,,,,,,")
+    return category_stat
 
 
 def analyse_stock_holdings(holdings):
