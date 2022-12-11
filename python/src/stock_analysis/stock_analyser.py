@@ -8,7 +8,7 @@ STOCK_CATEGORY = {
     "CORE": ["HDFCBANK", "HINDUNILVR", "ITC", "ITC1", "RELIANCE", "TCS", "SBIN", "INFY"],
     "STRONG-NON-CORE": ["EUREKAFORBE", "IRFC", "MAXHEALTH", "MAXVIL", "POONAWALLA"],
     "OTHER-NON-CORE": ["HCC", "HEMIPROP", "IDEA", "ISMTLTD", "MADHAVBAUG-SM", "MAFANG", "RENUKA", "SHREERAMA", "TTML"],
-    "PASSIVE": ["GOLDBEES", "JUNIORBEES", "LIQUIDBEES", "NIFTYBEES"],
+    "PASSIVE": ["GOLDBEES", "JUNIORBEES", "LIQUIDBEES", "NIFTYBEES", "GOLD BEES", "JUNIOR BEES", "LIQUID BEES", "NIFTY BEES"],
 }
 
 BSE_CODES = {
@@ -78,21 +78,20 @@ def write_analysed_stock_holdings(holdings_by_category, category_stats):
         for h in holdings:
             invested = float(h['Qty.']) * float(h['Avg. cost'])
             percentage_of_50lacs = 100 * invested / 5000000
-            print(
-                f"{category},{h['Instrument']},{h['Qty.']},{h['Avg. cost']},{invested},{h['LTP']},{h['Cur. val']},{h['P&L']},{percentage_of_50lacs}%")
+            print(f"{category},{h['Instrument']},{h['CompanyName']},{h['Qty.']},{h['Avg. cost']},{invested},{h['LTP']},{h['Cur. val']},{h['P&L']},{percentage_of_50lacs}%")
 
         # print sub total of category
         category_stat = category_stats[category]
         print(
-            f"Sub-Total,,,,{category_stat['INVESTED']},,{category_stat['Cur. val']},{category_stat['P&L']},{category_stat['% of 50L']}%")
-        print(f",,,,,,,")
+            f"Sub-Total,,,,,{category_stat['INVESTED']},,{category_stat['Cur. val']},{category_stat['P&L']},{category_stat['% of 50L']}%")
+        print(f",,,,,,,,")
 
         # calculate global total
         global_total["INVESTED"] = global_total.get("INVESTED", 0) + category_stat['INVESTED']
         global_total["Cur. val"] = global_total.get("Cur. val", 0) + category_stat['Cur. val']
         global_total["P&L"] = global_total.get("P&L", 0) + category_stat['P&L']
 
-    print(f"Grand-Total,,,,{global_total['INVESTED']},,{global_total['Cur. val']},{global_total['P&L']},")
+    print(f"Grand-Total,,,,,{global_total['INVESTED']},,{global_total['Cur. val']},{global_total['P&L']},")
 
 
 def analyse_stock_holdings(holdings):
@@ -114,6 +113,11 @@ def add_hdfc_securities(holdings):
     holdings.append(update_by_curr_market_price({"Instrument": "INFY", "Avg. cost": "551.86", "Qty.": "50"}))
     holdings.append(update_by_curr_market_price({"Instrument": "SBIN", "Avg. cost": "182.67", "Qty.": "500"}))
     holdings.append(update_by_curr_market_price({"Instrument": "ITC1", "Avg. cost": "159.11", "Qty.": "100", }, "ITC"))
+    # ["GOLDBEES", "JUNIORBEES", "LIQUIDBEES", "NIFTYBEES"],
+    holdings.append(update_by_curr_market_price({"Instrument": "GOLD BEES", "Avg. cost": "41.90", "Qty.": "666"}, "GOLDBEES"))
+    holdings.append(update_by_curr_market_price({"Instrument": "JUNIOR BEES", "Avg. cost": "452.92", "Qty.": "6"}, "JUNIORBEES"))
+    holdings.append(update_by_curr_market_price({"Instrument": "LIQUID BEES", "Avg. cost": "1012.71", "Qty.": "11"}, "LIQUIDBEES"))
+    holdings.append(update_by_curr_market_price({"Instrument": "NIFTY BEES", "Avg. cost": "172.89", "Qty.": "229"}, "NIFTYBEES"))
 
 
 def update_by_curr_market_price(holding, instrument=""):
@@ -129,12 +133,13 @@ def update_by_curr_market_price(holding, instrument=""):
 
 
 def update_by_nse_curr_market_price(details, holding, instrument):
-    print(f"Market price of: {instrument}: {details['closePrice']}")
+    print(f"Market price of: {instrument} on NSE: {details['closePrice']}")
     curr_val = float(holding["Qty."]) * float(details["closePrice"])
     invested = float(holding["Qty."]) * float(holding["Avg. cost"])
     holding["LTP"] = details["closePrice"]
     holding["Cur. val"] = curr_val
     holding["P&L"] = curr_val - invested
+    holding["CompanyName"] = details['companyName']
     return holding
 
 
@@ -159,6 +164,7 @@ def update_by_bse_curr_market_price(holding, instrument):
     holding["LTP"] = details["currentValue"]
     holding["Cur. val"] = curr_val
     holding["P&L"] = curr_val - invested
+    holding["CompanyName"] = details['companyName']
 
     return holding
 
@@ -166,9 +172,11 @@ def update_by_bse_curr_market_price(holding, instrument):
 def main():
     holdings = read_stock_holdings(
         "/Users/apple/yogesh/workspace/programming-problems/python/src/stock_analysis/holdings.csv")
-    for h in holdings:
-        update_by_curr_market_price(h)
     add_hdfc_securities(holdings)
+    for h in holdings:
+        h["CompanyName"] = h['Instrument']
+        update_by_curr_market_price(h)
+
     analyse_stock_holdings(holdings)
 
 
