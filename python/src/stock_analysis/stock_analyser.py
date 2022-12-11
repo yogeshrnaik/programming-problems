@@ -113,7 +113,7 @@ def analyse_stock_holdings(holdings):
     print(json.dumps(holdings_by_category, sort_keys=True, indent=2))
     category_stats = stats_by_category(holdings_by_category)
     print(json.dumps(category_stats, sort_keys=True, indent=2))
-    write_analysed_stock_holdings(holdings_by_category, category_stats)
+    return holdings_by_category, category_stats
 
 
 def print_holdings(holdings):
@@ -126,36 +126,39 @@ def add_hdfc_securities(holdings):
     holdings.append(update_by_market_price({INSTRUMENT: "SBIN", AVG_COST: "182.67", QUANTITY: "500"}))
     holdings.append(update_by_market_price({INSTRUMENT: "ITC1", AVG_COST: "159.11", QUANTITY: "100", }, "ITC"))
     holdings.append(update_by_market_price({INSTRUMENT: "GOLD BEES", AVG_COST: "41.90", QUANTITY: "666"}, "GOLDBEES"))
-    holdings.append(
-        update_by_market_price({INSTRUMENT: "JUNIOR BEES", AVG_COST: "452.92", QUANTITY: "6"}, "JUNIORBEES"))
-    holdings.append(
-        update_by_market_price({INSTRUMENT: "LIQUID BEES", AVG_COST: "1012.71", QUANTITY: "11"}, "LIQUIDBEES"))
-    holdings.append(
-        update_by_market_price({INSTRUMENT: "NIFTY BEES", AVG_COST: "172.89", QUANTITY: "229"}, "NIFTYBEES"))
+    holdings.append(update_by_market_price(
+        {INSTRUMENT: "JUNIOR BEES", AVG_COST: "452.92", QUANTITY: "6"}, "JUNIORBEES"
+    ))
+    holdings.append(update_by_market_price(
+        {INSTRUMENT: "LIQUID BEES", AVG_COST: "1012.71", QUANTITY: "11"}, "LIQUIDBEES"
+    ))
+    holdings.append(update_by_market_price(
+        {INSTRUMENT: "NIFTY BEES", AVG_COST: "172.89", QUANTITY: "229"}, "NIFTYBEES"
+    ))
 
 
 def update_by_market_price(holding, instrument=""):
     print("------------------------------------------------")
     instrument = instrument if instrument else holding[INSTRUMENT]
     print(f"Getting market price of: {instrument}")
-    details = nse.get_quote(instrument if instrument else holding[INSTRUMENT])
-    if not details:
+    nse_quote = nse.get_quote(instrument)
+    if not nse_quote:
         print(f"Market price of: {instrument} not found on NSE")
         holding = update_by_market_price_on_bse(holding, instrument)
         return holding
 
-    holding = update_by_market_price_on_nse(details, holding, instrument)
+    holding = update_by_market_price_on_nse(nse_quote, holding, instrument)
     return holding
 
 
-def update_by_market_price_on_nse(details, holding, instrument):
-    print(f"Market price of: {instrument} on NSE: {details['closePrice']}")
-    curr_val = float(holding[QUANTITY]) * float(details["closePrice"])
+def update_by_market_price_on_nse(nse_quote, holding, instrument):
+    print(f"Market price of: {instrument} on NSE: {nse_quote['closePrice']}")
+    curr_val = float(holding[QUANTITY]) * float(nse_quote["closePrice"])
     invested = float(holding[QUANTITY]) * float(holding[AVG_COST])
-    holding[LTP] = details["closePrice"]
+    holding[LTP] = nse_quote["closePrice"]
     holding[CURR_VALUE] = curr_val
     holding[PROFIT_LOSS] = curr_val - invested
-    holding[COMPANY_NAME] = details['companyName']
+    holding[COMPANY_NAME] = nse_quote['companyName']
     return holding
 
 
@@ -165,22 +168,22 @@ def update_by_market_price_on_bse(holding, instrument):
         print(f"BSE code not found for: {instrument}")
         return holding
     print(f"Getting market price of: {instrument} on BSE with code: {bse_instrument}")
-    details = bse.getQuote(bse_instrument)
-    if not details:
+    bse_quote = bse.getQuote(bse_instrument)
+    if not bse_quote:
         print(f"Market price of: {instrument} not found on BSE with code: {bse_instrument}")
         return holding
 
-    print(f"BSE: {details}")
-    if details['securityID'] != instrument:
-        raise Exception(f"BSE securityID: {details['securityID']} not matching with {instrument}")
-    curr_price = details['currentValue']
+    print(f"BSE: {bse_quote}")
+    if bse_quote['securityID'] != instrument:
+        raise Exception(f"BSE securityID: {bse_quote['securityID']} not matching with {instrument}")
+    curr_price = bse_quote['currentValue']
     print(f"Market price of: {instrument} on BSE: {curr_price}")
     curr_val = float(holding[QUANTITY]) * float(curr_price)
     invested = float(holding[QUANTITY]) * float(holding[AVG_COST])
-    holding[LTP] = details["currentValue"]
+    holding[LTP] = bse_quote["currentValue"]
     holding[CURR_VALUE] = curr_val
     holding[PROFIT_LOSS] = curr_val - invested
-    holding[COMPANY_NAME] = details['companyName']
+    holding[COMPANY_NAME] = bse_quote['companyName']
 
     return holding
 
@@ -196,7 +199,8 @@ def generate_stock_report():
     )
     add_hdfc_securities(holdings)
     update_all_holdings_by_market_price(holdings)
-    analyse_stock_holdings(holdings)
+    holdings_by_category, category_stats = analyse_stock_holdings(holdings)
+    write_analysed_stock_holdings(holdings_by_category, category_stats)
 
 
 def main():
