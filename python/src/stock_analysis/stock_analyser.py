@@ -1,11 +1,16 @@
 import csv
 import json
 
+from nsetools import nse, Nse
+
 STOCK_CATEGORY = {
-    "CORE": ["HDFCBANK", "HINDUNILVR", "ITC", "RELIANCE", "TCS", "SBIN"],
+    "CORE": ["HDFCBANK", "HINDUNILVR", "ITC", "RELIANCE", "TCS", "SBIN", "INFY"],
     "STRONG-NON-CORE": ["EUREKAFORBE", "IRFC", "MAXHEALTH", "MAXVIL", "POONAWALLA"],
-    "OTHER-NON-CORE": ["HCC", "HEMIPROP", "IDEA", "ISMTLTD", "MADHAVBAUG-SM", "MAFANG", "RENUKA", "SHREERAMA", "TTML"]
+    "OTHER-NON-CORE": ["HCC", "HEMIPROP", "IDEA", "ISMTLTD", "MADHAVBAUG-SM", "MAFANG", "RENUKA", "SHREERAMA", "TTML"],
+    "PASSIVE": ["GOLDBEES", "JUNIORBEES", "LIQUIDBEES", "NIFTYBEES"],
 }
+
+nse = Nse()
 
 
 def read_stock_holdings(csv_filepath):
@@ -68,7 +73,8 @@ def write_analysed_stock_holdings(holdings_by_category, category_stats):
 
         # print sub total of category
         category_stat = category_stats[category]
-        print(f"Sub-Total,,,,{category_stat['INVESTED']},,{category_stat['Cur. val']},{category_stat['P&L']},{category_stat['% of 50L']}%")
+        print(
+            f"Sub-Total,,,,{category_stat['INVESTED']},,{category_stat['Cur. val']},{category_stat['P&L']},{category_stat['% of 50L']}%")
         print(f",,,,,,,")
 
         # calculate global total
@@ -94,9 +100,39 @@ def print_holdings(holdings):
         print(h)
 
 
+def add_hdfc_securities(holdings):
+    infy = {
+        "category": "CORE",
+        "Instrument": "INFY",
+        "Avg. cost": "551.86",
+        "Qty.": "50",
+    }
+    holdings.append(update_hdfc_security(infy))
+    sbi = {
+        "category": "CORE",
+        "Instrument": "SBIN",
+        "Avg. cost": "182.67",
+        "Qty.": "500",
+    }
+    holdings.append(update_hdfc_security(sbi))
+
+
+def update_hdfc_security(holding):
+    details = nse.get_quote(holding["Instrument"])
+    print(details)
+
+    curr_val = float(holding["Qty."]) * float(details["closePrice"])
+    invested = float(holding["Qty."]) * float(holding["Avg. cost"])
+    holding["LTP"] = details["closePrice"]
+    holding["Cur. val"] = curr_val
+    holding["P&L"] = curr_val - invested
+    return holding
+
+
 def main():
     holdings = read_stock_holdings(
         "/Users/apple/yogesh/workspace/programming-problems/python/src/stock_analysis/holdings.csv")
+    add_hdfc_securities(holdings)
     analyse_stock_holdings(holdings)
 
 
