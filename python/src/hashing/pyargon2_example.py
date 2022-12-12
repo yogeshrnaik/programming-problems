@@ -1,3 +1,5 @@
+# https://pypi.org/project/pyargon2/
+
 from pyargon2 import hash
 
 password = 'a strong password'
