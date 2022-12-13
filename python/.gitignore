@@ -1,3 +1,5 @@
 *.csv
 indices.json
 stk.json
+.idea
+target
