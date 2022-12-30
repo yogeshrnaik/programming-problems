@@ -4,6 +4,12 @@ import json
 from nsetools import nse, Nse
 from bsedata.bse import BSE
 
+SYMBOLS_TO_FILTER = [
+    "MAFANG", "HDFCBANK",
+    "GOLDBEES", "JUNIORBEES", "LIQUIDBEES", "NIFTYBEES",
+    "GOLD BEES", "JUNIOR BEES", "LIQUID BEES", "NIFTY BEES"
+]
+
 INSTRUMENT = "Instrument"
 COMPANY_NAME = "CompanyName"
 QUANTITY = "Qty."
@@ -18,8 +24,8 @@ STOCK_CATEGORY = {
     "CORE": ["HDFCBANK", "HINDUNILVR", "ITC", "ITC1", "RELIANCE", "TCS", "SBIN", "INFY"],
     "STRONG-NON-CORE": ["EUREKAFORBE", "IRFC", "MAXHEALTH", "MAXVIL", "POONAWALLA"],
     "OTHER-NON-CORE": ["HCC", "HEMIPROP", "IDEA", "ISMTLTD", "MADHAVBAUG-SM", "MAFANG", "RENUKA", "SHREERAMA", "TTML"],
-    "PASSIVE": ["GOLDBEES", "JUNIORBEES", "LIQUIDBEES", "NIFTYBEES", "GOLD BEES", "JUNIOR BEES", "LIQUID BEES",
-                "NIFTY BEES"],
+    "PASSIVE": ["GOLDBEES", "JUNIORBEES", "LIQUIDBEES", "NIFTYBEES",
+                "GOLD BEES", "JUNIOR BEES", "LIQUID BEES", "NIFTY BEES"],
 }
 
 BSE_CODES = {
@@ -123,7 +129,7 @@ def print_sub_total(category, category_stats, output):
     category_stat = category_stats[category]
     line = f"Sub-Total,,,,,{category_stat[INVESTED]},,{category_stat[CURR_VALUE]},{category_stat[PROFIT_LOSS]},,{category_stat['% of 50L']}%"
     write_line(output, line)
-    write_line(output, ",,,,,,,,,")
+    # write_line(output, ",,,,,,,,,")
     return category_stat
 
 
@@ -214,11 +220,17 @@ def update_all_holdings_by_market_price(holdings):
         update_by_market_price(h)
 
 
+def filter(holdings):
+    symbols_to_filter = SYMBOLS_TO_FILTER
+    return [h for h in holdings if h[INSTRUMENT] not in symbols_to_filter]
+
+
 def generate_stock_report():
     holdings = read_stock_holdings(
         "/Users/apple/yogesh/workspace/programming-problems/python/src/stock_analysis/holdings.csv"
     )
     add_hdfc_securities(holdings)
+    holdings = filter(holdings)
     update_all_holdings_by_market_price(holdings)
     holdings_by_category, category_stats = analyse_stock_holdings(holdings)
     write_analysed_stock_holdings(holdings_by_category, category_stats)
