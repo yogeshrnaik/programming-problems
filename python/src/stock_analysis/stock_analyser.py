@@ -19,6 +19,7 @@ NET_CHANGE = "Net chg."
 INVESTED = "INVESTED"
 PROFIT_LOSS = "P&L"
 LTP = "LTP"  # Last Traded Price
+PERCENTAGE_OF_50L = "% of 50L"
 
 STOCK_CATEGORY = {
     "CORE": ["HDFCBANK", "HINDUNILVR", "ITC", "ITC1", "RELIANCE", "TCS", "SBIN", "INFY"],
@@ -84,13 +85,14 @@ def stats_by_category(holdings_by_category):
         category_stats[category] = stat
 
     for category, stat in category_stats.items():
-        stat["% of 50L"] = 100 * stat.get(INVESTED) / 5000000
+        stat[PERCENTAGE_OF_50L] = 100 * stat.get(INVESTED) / 5000000
     return category_stats
 
 
 def write_analysed_stock_holdings(holdings_by_category, category_stats):
     global_total = {}
     output = open("stock_output.csv", "w")
+    write_line(output, "Category,Instrument,Company Name,Quantity,Avg Cost,Invested Amount,Curr Market Price,Curr Value,P&L,% Net Change,% of 50Lacs")
 
     for category, holdings in holdings_by_category.items():
         for h in holdings:
@@ -110,7 +112,7 @@ def write_analysed_stock_holdings(holdings_by_category, category_stats):
 
 
 def print_global_total(global_total, output):
-    line = f"Grand-Total,,,,,{global_total[INVESTED]},,{global_total[CURR_VALUE]},{global_total[PROFIT_LOSS]},,"
+    line = f"Grand-Total,,,,,{global_total[INVESTED]},,{global_total[CURR_VALUE]},{global_total[PROFIT_LOSS]},,{global_total[PERCENTAGE_OF_50L]}"
     write_line(output, line)
 
 
@@ -123,11 +125,12 @@ def calc_global_total(category_stat, global_total):
     global_total[INVESTED] = global_total.get(INVESTED, 0) + category_stat[INVESTED]
     global_total[CURR_VALUE] = global_total.get(CURR_VALUE, 0) + category_stat[CURR_VALUE]
     global_total[PROFIT_LOSS] = global_total.get(PROFIT_LOSS, 0) + category_stat[PROFIT_LOSS]
+    global_total[PERCENTAGE_OF_50L] = global_total.get(PERCENTAGE_OF_50L, 0) + category_stat[PERCENTAGE_OF_50L]
 
 
 def print_sub_total(category, category_stats, output):
     category_stat = category_stats[category]
-    line = f"Sub-Total,,,,,{category_stat[INVESTED]},,{category_stat[CURR_VALUE]},{category_stat[PROFIT_LOSS]},,{category_stat['% of 50L']}%"
+    line = f"Sub-Total,,,,,{category_stat[INVESTED]},,{category_stat[CURR_VALUE]},{category_stat[PROFIT_LOSS]},,{category_stat[PERCENTAGE_OF_50L]}%"
     write_line(output, line)
     # write_line(output, ",,,,,,,,,")
     return category_stat
