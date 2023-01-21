@@ -6,6 +6,7 @@ from bsedata.bse import BSE
 
 SYMBOLS_TO_FILTER = [
     "MAFANG", "HDFCBANK",
+    "SGBDE30III-GB",
     "GOLDBEES", "JUNIORBEES", "LIQUIDBEES", "NIFTYBEES",
     "GOLD BEES", "JUNIOR BEES", "LIQUID BEES", "NIFTY BEES"
 ]
@@ -24,7 +25,7 @@ PERCENTAGE_OF_50L = "% of 50L"
 STOCK_CATEGORY = {
     "CORE": ["HDFCBANK", "HINDUNILVR", "ITC", "ITC1", "RELIANCE", "TCS", "SBIN", "INFY"],
     "STRONG-NON-CORE": ["EUREKAFORBE", "IRFC", "MAXHEALTH", "MAXVIL", "POONAWALLA"],
-    "OTHER-NON-CORE": ["HCC", "HEMIPROP", "IDEA", "ISMTLTD", "MADHAVBAUG-SM", "MAFANG", "RENUKA", "SHREERAMA", "TTML"],
+    "OTHER-NON-CORE": ["JYOTISTRUC", "HCC", "HEMIPROP", "IDEA", "ISMTLTD", "MADHAVBAUG-SM", "MAFANG", "RENUKA", "SHREERAMA", "TTML"],
     "PASSIVE": ["GOLDBEES", "JUNIORBEES", "LIQUIDBEES", "NIFTYBEES",
                 "GOLD BEES", "JUNIOR BEES", "LIQUID BEES", "NIFTY BEES"],
 }
@@ -35,6 +36,7 @@ BSE_CODES = {
     "JUNIORBEES": "590104",
     "LIQUIDBEES": "590096",
     "NIFTYBEES": "590103",
+    "JYOTISTRUC": "513250",
 }
 
 nse = Nse()
@@ -154,7 +156,7 @@ def print_holdings(holdings):
 def add_hdfc_securities(holdings):
     holdings.append(update_by_market_price({INSTRUMENT: "INFY", AVG_COST: "551.86", QUANTITY: "50"}))
     holdings.append(update_by_market_price({INSTRUMENT: "SBIN", AVG_COST: "182.67", QUANTITY: "500"}))
-    holdings.append(update_by_market_price({INSTRUMENT: "ITC1", AVG_COST: "159.11", QUANTITY: "100", }, "ITC"))
+    holdings.append(update_by_market_price({INSTRUMENT: "ITC", AVG_COST: "159.11", QUANTITY: "100", }, "ITC"))
     holdings.append(update_by_market_price({INSTRUMENT: "GOLD BEES", AVG_COST: "41.90", QUANTITY: "666"}, "GOLDBEES"))
     holdings.append(update_by_market_price(
         {INSTRUMENT: "JUNIOR BEES", AVG_COST: "452.92", QUANTITY: "6"}, "JUNIORBEES"
