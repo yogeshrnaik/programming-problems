@@ -25,7 +25,7 @@ PERCENTAGE_OF_50L = "% of 50L"
 STOCK_CATEGORY = {
     "CORE": ["HDFCBANK", "HINDUNILVR", "ITC", "ITC1", "RELIANCE", "TCS", "SBIN", "INFY"],
     "STRONG-NON-CORE": ["EUREKAFORBE", "IRFC", "MAXHEALTH", "MAXVIL", "POONAWALLA"],
-    "OTHER-NON-CORE": ["JYOTISTRUC", "HCC", "HEMIPROP", "IDEA", "ISMTLTD", "MADHAVBAUG-SM", "MAFANG", "RENUKA", "SHREERAMA", "TTML"],
+    "OTHER-NON-CORE": ["DUCOL-ST", "JYOTISTRUC", "HCC", "HEMIPROP", "IDEA", "ISMTLTD", "MADHAVBAUG-SM", "MAFANG", "RENUKA", "SHREERAMA", "SHRGLTR", "TTML"],
     "PASSIVE": ["GOLDBEES", "JUNIORBEES", "LIQUIDBEES", "NIFTYBEES",
                 "GOLD BEES", "JUNIOR BEES", "LIQUID BEES", "NIFTY BEES"],
 }
@@ -37,6 +37,7 @@ BSE_CODES = {
     "LIQUIDBEES": "590096",
     "NIFTYBEES": "590103",
     "JYOTISTRUC": "513250",
+    "SHRGLTR": "512463",
 }
 
 nse = Nse()
@@ -142,7 +143,7 @@ def analyse_stock_holdings(holdings):
     categorise_holdings(holdings)
     holdings.sort(key=lambda h: h["category"] + h[INSTRUMENT])
     holdings_by_category = group_by_category(holdings)
-    print(json.dumps(holdings_by_category, sort_keys=True, indent=2))
+    # print(json.dumps(holdings_by_category, sort_keys=True, indent=2))
     category_stats = stats_by_category(holdings_by_category)
     print(json.dumps(category_stats, sort_keys=True, indent=2))
     return holdings_by_category, category_stats
@@ -232,7 +233,8 @@ def filter(holdings):
 
 def generate_stock_report():
     holdings = read_stock_holdings(
-        "/Users/apple/yogesh/workspace/programming-problems/python/src/stock_analysis/holdings.csv"
+        # "/Users/apple/yogesh/workspace/programming-problems/python/src/stock_analysis/holdings.csv"
+        "/Users/yogeshrnaik/Yogesh/workspace/programming-problems/python/src/stock_analysis/holdings.csv"
     )
     add_hdfc_securities(holdings)
     holdings = filter(holdings)
