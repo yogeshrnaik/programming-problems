@@ -38,6 +38,9 @@ BSE_CODES = {
     "NIFTYBEES": "590103",
     "JYOTISTRUC": "513250",
     "SHRGLTR": "512463",
+    "INFY": "500209",
+    "ITC": "500875",
+    "SBIN": "500112",
 }
 
 nse = Nse()
@@ -175,7 +178,7 @@ def update_by_market_price(holding, instrument=""):
     instrument = instrument if instrument else holding[INSTRUMENT]
     print(f"Getting market price of: {instrument}")
     nse_quote = nse.get_quote(instrument)
-    if not nse_quote:
+    if not nse_quote or not nse_quote["closePrice"]:
         print(f"Market price of: {instrument} not found on NSE")
         holding = update_by_market_price_on_bse(holding, instrument)
         return holding
@@ -186,9 +189,13 @@ def update_by_market_price(holding, instrument=""):
 
 def update_by_market_price_on_nse(nse_quote, holding, instrument):
     print(f"Market price of: {instrument} on NSE: {nse_quote['closePrice']}")
-    curr_val = float(holding[QUANTITY]) * float(nse_quote["closePrice"])
+    curr_price = float(nse_quote["closePrice"])
+    if not nse_quote["closePrice"] and LTP in holding:
+        print(f"Market price of: {instrument} on NSE: {nse_quote['closePrice']} is zero so using LTP: {float(holding[LTP])}")
+        curr_price = float(holding[LTP])
+    curr_val = float(holding[QUANTITY]) * curr_price
     invested = float(holding[QUANTITY]) * float(holding[AVG_COST])
-    holding[LTP] = nse_quote["closePrice"]
+    holding[LTP] = curr_price
     holding[CURR_VALUE] = curr_val
     holding[PROFIT_LOSS] = curr_val - invested
     holding[COMPANY_NAME] = nse_quote['companyName']
@@ -207,7 +214,7 @@ def update_by_market_price_on_bse(holding, instrument):
         return holding
 
     print(f"BSE: {bse_quote}")
-    if bse_quote['securityID'] != instrument:
+    if not instrument in bse_quote['securityID']:
         raise Exception(f"BSE securityID: {bse_quote['securityID']} not matching with {instrument}")
     curr_price = bse_quote['currentValue']
     print(f"Market price of: {instrument} on BSE: {curr_price}")
@@ -233,8 +240,8 @@ def filter(holdings):
 
 def generate_stock_report():
     holdings = read_stock_holdings(
-        # "/Users/apple/yogesh/workspace/programming-problems/python/src/stock_analysis/holdings.csv"
-        "/Users/yogeshrnaik/Yogesh/workspace/programming-problems/python/src/stock_analysis/holdings.csv"
+        "/Users/apple/yogesh/workspace/programming-problems/python/src/stock_analysis/holdings.csv"
+        # "/Users/yogeshrnaik/Yogesh/workspace/programming-problems/python/src/stock_analysis/holdings.csv"
     )
     add_hdfc_securities(holdings)
     holdings = filter(holdings)
