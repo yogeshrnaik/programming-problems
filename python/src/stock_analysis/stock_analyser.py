@@ -6,7 +6,7 @@ from bsedata.bse import BSE
 
 SYMBOLS_TO_FILTER = [
     "MAFANG", "HDFCBANK",
-    "SGBDE30III-GB",
+    "SGBDE30III-GB", "SGBDEC30",
     "GOLDBEES", "JUNIORBEES", "LIQUIDBEES", "NIFTYBEES",
     "GOLD BEES", "JUNIOR BEES", "LIQUID BEES", "NIFTY BEES"
 ]
@@ -25,9 +25,9 @@ PERCENTAGE_OF_50L = "% of 50L"
 STOCK_CATEGORY = {
     "CORE": ["HDFCBANK", "HINDUNILVR", "ITC", "ITC1", "RELIANCE", "TCS", "SBIN", "INFY"],
     "STRONG-NON-CORE": ["EUREKAFORBE", "IRFC", "MAXHEALTH", "MAXVIL", "POONAWALLA"],
-    "OTHER-NON-CORE": ["DUCOL-ST", "JYOTISTRUC", "HCC", "HEMIPROP", "IDEA", "ISMTLTD", "MADHAVBAUG-SM", "MAFANG", "RENUKA", "SHREERAMA", "SHRGLTR", "TTML"],
+    "OTHER-NON-CORE": ["DUCOL-ST", "DUCOL-SM", "JYOTISTRUC", "JYOTISTRUC-BZ", "HCC", "HEMIPROP", "IDEA", "ISMTLTD", "MADHAVBAUG-SM", "MAFANG", "RENUKA", "SHREERAMA", "SHRGLTR", "TTML"],
     "PASSIVE": ["GOLDBEES", "JUNIORBEES", "LIQUIDBEES", "NIFTYBEES",
-                "GOLD BEES", "JUNIOR BEES", "LIQUID BEES", "NIFTY BEES"],
+                "GOLD BEES", "JUNIOR BEES", "LIQUID BEES", "NIFTY BEES", "SGBDEC30"],
 }
 
 BSE_CODES = {
@@ -188,17 +188,20 @@ def update_by_market_price(holding, instrument=""):
 
 
 def update_by_market_price_on_nse(nse_quote, holding, instrument):
-    print(f"Market price of: {instrument} on NSE: {nse_quote['closePrice']}")
-    curr_price = float(nse_quote["closePrice"])
-    if not nse_quote["closePrice"] and LTP in holding:
-        print(f"Market price of: {instrument} on NSE: {nse_quote['closePrice']} is zero so using LTP: {float(holding[LTP])}")
-        curr_price = float(holding[LTP])
-    curr_val = float(holding[QUANTITY]) * curr_price
-    invested = float(holding[QUANTITY]) * float(holding[AVG_COST])
-    holding[LTP] = curr_price
-    holding[CURR_VALUE] = curr_val
-    holding[PROFIT_LOSS] = curr_val - invested
-    holding[COMPANY_NAME] = nse_quote['companyName']
+    try:
+        print(f"Market price of: {instrument} on NSE: {nse_quote['closePrice']}")
+        curr_price = float(nse_quote["closePrice"])
+        if not nse_quote["closePrice"] and LTP in holding:
+            print(f"Market price of: {instrument} on NSE: {nse_quote['closePrice']} is zero so using LTP: {float(holding[LTP])}")
+            curr_price = float(holding[LTP])
+        curr_val = float(holding[QUANTITY]) * curr_price
+        invested = float(holding[QUANTITY]) * float(holding[AVG_COST])
+        holding[LTP] = curr_price
+        holding[CURR_VALUE] = curr_val
+        holding[PROFIT_LOSS] = curr_val - invested
+        holding[COMPANY_NAME] = nse_quote['companyName']
+    except Exception as e:
+        print(f"Error when updating market price from NSE for: {instrument}. Error:", e)
     return holding
 
 
@@ -240,7 +243,7 @@ def filter(holdings):
 
 def generate_stock_report():
     holdings = read_stock_holdings(
-        "/Users/apple/yogesh/workspace/programming-problems/python/src/stock_analysis/holdings.csv"
+        "/Users/yogeshnaik/Yogesh/workspace/personal/programming-problems/python/src/stock_analysis/holdings.csv"
         # "/Users/yogeshrnaik/Yogesh/workspace/programming-problems/python/src/stock_analysis/holdings.csv"
     )
     add_hdfc_securities(holdings)
