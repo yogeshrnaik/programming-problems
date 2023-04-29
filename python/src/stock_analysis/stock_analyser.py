@@ -21,11 +21,13 @@ INVESTED = "INVESTED"
 PROFIT_LOSS = "P&L"
 LTP = "LTP"  # Last Traded Price
 PERCENTAGE_OF_50L = "% of 50L"
+PERCENTAGE_OF_75L = "% of 75L"
 
 STOCK_CATEGORY = {
     "CORE": ["HDFCBANK", "HINDUNILVR", "ITC", "ITC1", "RELIANCE", "TCS", "SBIN", "INFY"],
     "STRONG-NON-CORE": ["EUREKAFORBE", "IRFC", "MAXHEALTH", "MAXVIL", "POONAWALLA"],
-    "OTHER-NON-CORE": ["DUCOL-ST", "DUCOL-SM", "JYOTISTRUC", "JYOTISTRUC-BZ", "HCC", "HEMIPROP", "IDEA", "ISMTLTD", "MADHAVBAUG-SM", "MAFANG", "RENUKA", "SHREERAMA", "SHRGLTR", "TTML"],
+    "OTHER-NON-CORE": ["DUCOL-ST", "DUCOL-SM", "JYOTISTRUC", "JYOTISTRUC-BZ", "HCC", "HEMIPROP", "IDEA", "ISMTLTD",
+                       "MADHAVBAUG-SM", "MAFANG", "RENUKA", "SHREERAMA", "SHRGLTR", "TTML"],
     "PASSIVE": ["GOLDBEES", "JUNIORBEES", "LIQUIDBEES", "NIFTYBEES",
                 "GOLD BEES", "JUNIOR BEES", "LIQUID BEES", "NIFTY BEES", "SGBDEC30"],
 }
@@ -36,11 +38,26 @@ BSE_CODES = {
     "JUNIORBEES": "590104",
     "LIQUIDBEES": "590096",
     "NIFTYBEES": "590103",
-    "JYOTISTRUC": "513250",
-    "SHRGLTR": "512463",
     "INFY": "500209",
     "ITC": "500875",
     "SBIN": "500112",
+    "HINDUNILVR": "500696",
+    "RELIANCE": "500325",
+    "TCS": "532540",
+    "HCC": "500185",
+    "HEMIPROP": "543242",
+    "IDEA": "532822",
+    "ISMTLTD": "532479",
+    "JYOTISTRUC": "513250",
+    "RENUKA": "532670",
+    "SHREERAMA": "532310",
+    "SHRGLTR": "512463",
+    "TTML": "532371",
+    "EUREKAFORBE": "543482",
+    "IRFC": "543257",
+    "MAXHEALTH": "543220",
+    "MAXVIL": "539940",
+    "POONAWALLA": "524000",
 }
 
 nse = Nse()
@@ -92,22 +109,25 @@ def stats_by_category(holdings_by_category):
 
     for category, stat in category_stats.items():
         stat[PERCENTAGE_OF_50L] = 100 * stat.get(INVESTED) / 5000000
+        stat[PERCENTAGE_OF_75L] = 100 * stat.get(INVESTED) / 7500000
     return category_stats
 
 
 def write_analysed_stock_holdings(holdings_by_category, category_stats):
     global_total = {}
     output = open("stock_output.csv", "w")
-    write_line(output, "Category,Instrument,Company Name,Quantity,Avg Cost,Invested Amount,Curr Market Price,Curr Value,P&L,% Net Change,% of 50Lacs")
+    write_line(output,
+               "Category,Instrument,Company Name,Quantity,Avg Cost,Invested Amount,Curr Market Price,Curr Value,P&L,% Net Change,% of 50Lacs,% of 75Lacs")
 
     for category, holdings in holdings_by_category.items():
         for h in holdings:
             invested = float(h[QUANTITY]) * float(h[AVG_COST])
             percentage_of_50lacs = 100 * invested / 5000000
+            percentage_of_75lacs = 100 * invested / 7500000
             net_change = 100 * float(h[PROFIT_LOSS]) / invested
             company_name = h.get(COMPANY_NAME, h[INSTRUMENT])
             line = f"{category},{h[INSTRUMENT]},{company_name},{h[QUANTITY]},{h[AVG_COST]},{invested},{h[LTP]}," \
-                   f"{h[CURR_VALUE]},{h[PROFIT_LOSS]},{net_change}%,{percentage_of_50lacs}%"
+                   f"{h[CURR_VALUE]},{h[PROFIT_LOSS]},{net_change}%,{percentage_of_50lacs}%,{percentage_of_75lacs}%"
             write_line(output, line)
 
         category_stat = print_sub_total(category, category_stats, output)
@@ -118,7 +138,7 @@ def write_analysed_stock_holdings(holdings_by_category, category_stats):
 
 
 def print_global_total(global_total, output):
-    line = f"Grand-Total,,,,,{global_total[INVESTED]},,{global_total[CURR_VALUE]},{global_total[PROFIT_LOSS]},,{global_total[PERCENTAGE_OF_50L]}"
+    line = f"Grand-Total,,,,,{global_total[INVESTED]},,{global_total[CURR_VALUE]},{global_total[PROFIT_LOSS]},,{global_total[PERCENTAGE_OF_50L]},{global_total[PERCENTAGE_OF_75L]}"
     write_line(output, line)
 
 
@@ -132,11 +152,12 @@ def calc_global_total(category_stat, global_total):
     global_total[CURR_VALUE] = global_total.get(CURR_VALUE, 0) + category_stat[CURR_VALUE]
     global_total[PROFIT_LOSS] = global_total.get(PROFIT_LOSS, 0) + category_stat[PROFIT_LOSS]
     global_total[PERCENTAGE_OF_50L] = global_total.get(PERCENTAGE_OF_50L, 0) + category_stat[PERCENTAGE_OF_50L]
+    global_total[PERCENTAGE_OF_75L] = global_total.get(PERCENTAGE_OF_75L, 0) + category_stat[PERCENTAGE_OF_75L]
 
 
 def print_sub_total(category, category_stats, output):
     category_stat = category_stats[category]
-    line = f"Sub-Total,,,,,{category_stat[INVESTED]},,{category_stat[CURR_VALUE]},{category_stat[PROFIT_LOSS]},,{category_stat[PERCENTAGE_OF_50L]}%"
+    line = f"Sub-Total,,,,,{category_stat[INVESTED]},,{category_stat[CURR_VALUE]},{category_stat[PROFIT_LOSS]},,{category_stat[PERCENTAGE_OF_50L]}%,{category_stat[PERCENTAGE_OF_75L]}%"
     write_line(output, line)
     # write_line(output, ",,,,,,,,,")
     return category_stat
@@ -176,8 +197,12 @@ def add_hdfc_securities(holdings):
 def update_by_market_price(holding, instrument=""):
     print("------------------------------------------------")
     instrument = instrument if instrument else holding[INSTRUMENT]
-    print(f"Getting market price of: {instrument}")
-    nse_quote = nse.get_quote(instrument)
+    print(f"Getting market price of: {instrument} from NSE")
+    nse_quote = None
+    try:
+        nse_quote = nse.get_quote(instrument)
+    except Exception as e:
+        print(f"Error getting market price of: {instrument} from NSE, error: {e}")
     if not nse_quote or not nse_quote["closePrice"]:
         print(f"Market price of: {instrument} not found on NSE")
         holding = update_by_market_price_on_bse(holding, instrument)
@@ -192,7 +217,8 @@ def update_by_market_price_on_nse(nse_quote, holding, instrument):
         print(f"Market price of: {instrument} on NSE: {nse_quote['closePrice']}")
         curr_price = float(nse_quote["closePrice"])
         if not nse_quote["closePrice"] and LTP in holding:
-            print(f"Market price of: {instrument} on NSE: {nse_quote['closePrice']} is zero so using LTP: {float(holding[LTP])}")
+            print(
+                f"Market price of: {instrument} on NSE: {nse_quote['closePrice']} is zero so using LTP: {float(holding[LTP])}")
             curr_price = float(holding[LTP])
         curr_val = float(holding[QUANTITY]) * curr_price
         invested = float(holding[QUANTITY]) * float(holding[AVG_COST])
