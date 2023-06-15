@@ -4,6 +4,9 @@ import json
 from nsetools import nse, Nse
 from bsedata.bse import BSE
 
+PERCENTAGE_OF_INVESTED = "PERCENTAGE_OF_INVESTED"
+PERCENTAGE_OF_CURR_VALUE = "PERCENTAGE_OF_CURR_VALUE"
+
 SYMBOLS_TO_FILTER = [
     "MAFANG", "HDFCBANK",
     "SGBDE30III-GB", "SGBDEC30",
@@ -103,19 +106,27 @@ def group_by_category(holdings):
 
 def stats_by_category(holdings_by_category):
     category_stats = {}
+    total_invested = 0
+    total_curr_value = 0
+    total_profit = 0
     for category, category_holdings in holdings_by_category.items():
         stat = category_stats.get(category, {})
         stat[CURR_VALUE] = category_stats.get(f"{category}-{CURR_VALUE}", 0) \
                            + sum(float(h[CURR_VALUE]) for h in category_holdings)
+        total_curr_value += stat[CURR_VALUE]
+
         stat[INVESTED] = category_stats.get(f"{category}-{INVESTED}", 0) \
                          + sum(float(h[QUANTITY]) * float(h[AVG_COST]) for h in category_holdings)
+        total_invested += stat[INVESTED]
+
         stat[PROFIT_LOSS] = category_stats.get(f"{category}-{PROFIT_LOSS}", 0) \
                             + sum(float(h[PROFIT_LOSS]) for h in category_holdings)
+        total_profit += stat[PROFIT_LOSS]
         category_stats[category] = stat
 
     for category, stat in category_stats.items():
-        stat[PERCENTAGE_OF_50L] = 100 * stat.get(INVESTED) / 5000000
-        stat[PERCENTAGE_OF_75L] = 100 * stat.get(INVESTED) / 7500000
+        stat[PERCENTAGE_OF_INVESTED] = 100 * stat.get(INVESTED) / total_invested
+        stat[PERCENTAGE_OF_CURR_VALUE] = 100 * stat.get(CURR_VALUE) / total_curr_value
     return category_stats
 
 
@@ -124,19 +135,21 @@ def write_analysed_stock_holdings(holdings_by_category, category_stats):
     output = open("stock_output.csv", "w")
     # write_line(output, "Category,Instrument,Company Name,Quantity,Avg Cost,Invested Amount,Curr Market Price,Curr Value,P&L,% Net Change,% of 50Lacs,% of 75Lacs")
     write_line(output,
-               "Category,Instrument,Company Name,Quantity,Avg Cost,Invested Amount,Curr Market Price,Curr Value,P&L,% Net Change,% of 75Lacs")
+               "Category,Instrument,Company Name,Quantity,Avg Cost,Invested Amount,Curr Market Price,Curr Value,P&L,% Net Change,% of Invested Amt,% of Curr Value")
 
     for category, holdings in holdings_by_category.items():
         for h in holdings:
             invested = float(h[QUANTITY]) * float(h[AVG_COST])
+            curr_value = float(h[QUANTITY]) * float(h[LTP])
             # percentage_of_50lacs = 100 * invested / 5000000
-            percentage_of_75lacs = 100 * invested / 7500000
+            percentage_of_invested = 100 * invested / category_stats[category][INVESTED]
+            percentage_of_curr_value = 100 * curr_value / category_stats[category][CURR_VALUE]
             net_change = 100 * float(h[PROFIT_LOSS]) / invested
             company_name = h.get(COMPANY_NAME, h[INSTRUMENT])
             # line = f"{category},{h[INSTRUMENT]},{company_name},{h[QUANTITY]},{h[AVG_COST]},{invested},{h[LTP]}," \
-            #        f"{h[CURR_VALUE]},{h[PROFIT_LOSS]},{net_change}%,{percentage_of_50lacs}%,{percentage_of_75lacs}%"
+            #        f"{h[CURR_VALUE]},{h[PROFIT_LOSS]},{net_change}%,{percentage_of_50lacs}%,{percentage_of_invested}%"
             line = f"{category},{h[INSTRUMENT]},{company_name},{h[QUANTITY]},{h[AVG_COST]},{invested},{h[LTP]}," \
-                   f"{h[CURR_VALUE]},{h[PROFIT_LOSS]},{net_change}%,{percentage_of_75lacs}%"
+                   f"{h[CURR_VALUE]},{h[PROFIT_LOSS]},{net_change}%,{percentage_of_invested}%,{percentage_of_curr_value}%"
             write_line(output, line)
 
         category_stat = print_sub_total(category, category_stats, output)
@@ -148,7 +161,7 @@ def write_analysed_stock_holdings(holdings_by_category, category_stats):
 
 def print_global_total(global_total, output):
     # line = f"Grand-Total,,,,,{global_total[INVESTED]},,{global_total[CURR_VALUE]},{global_total[PROFIT_LOSS]},,{global_total[PERCENTAGE_OF_50L]},{global_total[PERCENTAGE_OF_75L]}"
-    line = f"Grand-Total,,,,,{global_total[INVESTED]},,{global_total[CURR_VALUE]},{global_total[PROFIT_LOSS]},,{global_total[PERCENTAGE_OF_75L]}"
+    line = f"Grand-Total,,,,,{global_total[INVESTED]},,{global_total[CURR_VALUE]},{global_total[PROFIT_LOSS]},,{global_total[PERCENTAGE_OF_INVESTED]},{global_total[PERCENTAGE_OF_CURR_VALUE]}"
     write_line(output, line)
 
 
@@ -162,13 +175,14 @@ def calc_global_total(category_stat, global_total):
     global_total[CURR_VALUE] = global_total.get(CURR_VALUE, 0) + category_stat[CURR_VALUE]
     global_total[PROFIT_LOSS] = global_total.get(PROFIT_LOSS, 0) + category_stat[PROFIT_LOSS]
     # global_total[PERCENTAGE_OF_50L] = global_total.get(PERCENTAGE_OF_50L, 0) + category_stat[PERCENTAGE_OF_50L]
-    global_total[PERCENTAGE_OF_75L] = global_total.get(PERCENTAGE_OF_75L, 0) + category_stat[PERCENTAGE_OF_75L]
+    global_total[PERCENTAGE_OF_INVESTED] = global_total.get(PERCENTAGE_OF_INVESTED, 0) + category_stat[PERCENTAGE_OF_INVESTED]
+    global_total[PERCENTAGE_OF_CURR_VALUE] = global_total.get(PERCENTAGE_OF_CURR_VALUE, 0) + category_stat[PERCENTAGE_OF_CURR_VALUE]
 
 
 def print_sub_total(category, category_stats, output):
     category_stat = category_stats[category]
     # line = f"Sub-Total,,,,,{category_stat[INVESTED]},,{category_stat[CURR_VALUE]},{category_stat[PROFIT_LOSS]},,{category_stat[PERCENTAGE_OF_50L]}%,{category_stat[PERCENTAGE_OF_75L]}%"
-    line = f"Sub-Total,,,,,{category_stat[INVESTED]},,{category_stat[CURR_VALUE]},{category_stat[PROFIT_LOSS]},,{category_stat[PERCENTAGE_OF_75L]}%"
+    line = f"Sub-Total,,,,,{category_stat[INVESTED]},,{category_stat[CURR_VALUE]},{category_stat[PROFIT_LOSS]},,{category_stat[PERCENTAGE_OF_INVESTED]}%,{category_stat[PERCENTAGE_OF_CURR_VALUE]}%"
     write_line(output, line)
     # write_line(output, ",,,,,,,,,")
     return category_stat
