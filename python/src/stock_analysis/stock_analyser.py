@@ -24,9 +24,11 @@ PERCENTAGE_OF_50L = "% of 50L"
 PERCENTAGE_OF_75L = "% of 75L"
 
 STOCK_CATEGORY = {
-    "CORE": ["HDFCBANK", "HINDUNILVR", "ITC", "ITC1", "RELIANCE", "TCS", "SBIN", "INFY"],
+    "CORE": ["HDFCBANK", "HINDUNILVR", "ITC", "ITC1", "NESTLEIND", "RELIANCE", "SIEMENS", "TATAELXSI", "TCS", "SBIN",
+             "INFY"],
     "STRONG-NON-CORE": ["EUREKAFORBE", "IRCON", "IRFC", "MAXHEALTH", "MAXVIL", "POONAWALLA"],
-    "OTHER-NON-CORE": ["DUCOL-ST", "DUCOL-SM", "JYOTISTRUC", "JYOTISTRUC-BZ", "HCC", "HEMIPROP", "IDEA", "ISMTLTD",
+    "OTHER-NON-CORE": ["DUCOL-ST", "DUCOL-SM", "JYOTISTRUC", "JYOTISTRUC-BE", "JYOTISTRUC-BZ", "HCC", "HEMIPROP",
+                       "IDEA", "ISMTLTD",
                        "MADHAVBAUG-SM", "MAFANG", "RENUKA", "SHREERAMA", "SHRGLTR", "TTML"],
     "PASSIVE": ["GOLDBEES", "JUNIORBEES", "LIQUIDBEES", "NIFTYBEES",
                 "GOLD BEES", "JUNIOR BEES", "LIQUID BEES", "NIFTY BEES", "SGBDEC30"],
@@ -49,6 +51,7 @@ BSE_CODES = {
     "IDEA": "532822",
     "ISMTLTD": "532479",
     "JYOTISTRUC": "513250",
+    "JYOTISTRUC-BE": "513250",
     "RENUKA": "532670",
     "SHREERAMA": "532310",
     "SHRGLTR": "512463",
@@ -57,7 +60,9 @@ BSE_CODES = {
     "IRFC": "543257",
     "MAXHEALTH": "543220",
     "MAXVIL": "539940",
-    "POONAWALLA": "524000",
+    "NESTLEIND": "500790",
+    "SIEMENS": "500550",
+    "TATAELXSI": "500408"
 }
 
 nse = Nse()
@@ -116,18 +121,21 @@ def stats_by_category(holdings_by_category):
 def write_analysed_stock_holdings(holdings_by_category, category_stats):
     global_total = {}
     output = open("stock_output.csv", "w")
+    # write_line(output, "Category,Instrument,Company Name,Quantity,Avg Cost,Invested Amount,Curr Market Price,Curr Value,P&L,% Net Change,% of 50Lacs,% of 75Lacs")
     write_line(output,
-               "Category,Instrument,Company Name,Quantity,Avg Cost,Invested Amount,Curr Market Price,Curr Value,P&L,% Net Change,% of 50Lacs,% of 75Lacs")
+               "Category,Instrument,Company Name,Quantity,Avg Cost,Invested Amount,Curr Market Price,Curr Value,P&L,% Net Change,% of 75Lacs")
 
     for category, holdings in holdings_by_category.items():
         for h in holdings:
             invested = float(h[QUANTITY]) * float(h[AVG_COST])
-            percentage_of_50lacs = 100 * invested / 5000000
+            # percentage_of_50lacs = 100 * invested / 5000000
             percentage_of_75lacs = 100 * invested / 7500000
             net_change = 100 * float(h[PROFIT_LOSS]) / invested
             company_name = h.get(COMPANY_NAME, h[INSTRUMENT])
+            # line = f"{category},{h[INSTRUMENT]},{company_name},{h[QUANTITY]},{h[AVG_COST]},{invested},{h[LTP]}," \
+            #        f"{h[CURR_VALUE]},{h[PROFIT_LOSS]},{net_change}%,{percentage_of_50lacs}%,{percentage_of_75lacs}%"
             line = f"{category},{h[INSTRUMENT]},{company_name},{h[QUANTITY]},{h[AVG_COST]},{invested},{h[LTP]}," \
-                   f"{h[CURR_VALUE]},{h[PROFIT_LOSS]},{net_change}%,{percentage_of_50lacs}%,{percentage_of_75lacs}%"
+                   f"{h[CURR_VALUE]},{h[PROFIT_LOSS]},{net_change}%,{percentage_of_75lacs}%"
             write_line(output, line)
 
         category_stat = print_sub_total(category, category_stats, output)
@@ -138,7 +146,8 @@ def write_analysed_stock_holdings(holdings_by_category, category_stats):
 
 
 def print_global_total(global_total, output):
-    line = f"Grand-Total,,,,,{global_total[INVESTED]},,{global_total[CURR_VALUE]},{global_total[PROFIT_LOSS]},,{global_total[PERCENTAGE_OF_50L]},{global_total[PERCENTAGE_OF_75L]}"
+    # line = f"Grand-Total,,,,,{global_total[INVESTED]},,{global_total[CURR_VALUE]},{global_total[PROFIT_LOSS]},,{global_total[PERCENTAGE_OF_50L]},{global_total[PERCENTAGE_OF_75L]}"
+    line = f"Grand-Total,,,,,{global_total[INVESTED]},,{global_total[CURR_VALUE]},{global_total[PROFIT_LOSS]},,{global_total[PERCENTAGE_OF_75L]}"
     write_line(output, line)
 
 
@@ -151,13 +160,14 @@ def calc_global_total(category_stat, global_total):
     global_total[INVESTED] = global_total.get(INVESTED, 0) + category_stat[INVESTED]
     global_total[CURR_VALUE] = global_total.get(CURR_VALUE, 0) + category_stat[CURR_VALUE]
     global_total[PROFIT_LOSS] = global_total.get(PROFIT_LOSS, 0) + category_stat[PROFIT_LOSS]
-    global_total[PERCENTAGE_OF_50L] = global_total.get(PERCENTAGE_OF_50L, 0) + category_stat[PERCENTAGE_OF_50L]
+    # global_total[PERCENTAGE_OF_50L] = global_total.get(PERCENTAGE_OF_50L, 0) + category_stat[PERCENTAGE_OF_50L]
     global_total[PERCENTAGE_OF_75L] = global_total.get(PERCENTAGE_OF_75L, 0) + category_stat[PERCENTAGE_OF_75L]
 
 
 def print_sub_total(category, category_stats, output):
     category_stat = category_stats[category]
-    line = f"Sub-Total,,,,,{category_stat[INVESTED]},,{category_stat[CURR_VALUE]},{category_stat[PROFIT_LOSS]},,{category_stat[PERCENTAGE_OF_50L]}%,{category_stat[PERCENTAGE_OF_75L]}%"
+    # line = f"Sub-Total,,,,,{category_stat[INVESTED]},,{category_stat[CURR_VALUE]},{category_stat[PROFIT_LOSS]},,{category_stat[PERCENTAGE_OF_50L]}%,{category_stat[PERCENTAGE_OF_75L]}%"
+    line = f"Sub-Total,,,,,{category_stat[INVESTED]},,{category_stat[CURR_VALUE]},{category_stat[PROFIT_LOSS]},,{category_stat[PERCENTAGE_OF_75L]}%"
     write_line(output, line)
     # write_line(output, ",,,,,,,,,")
     return category_stat
@@ -197,19 +207,22 @@ def add_hdfc_securities(holdings):
 def update_by_market_price(holding, instrument=""):
     print("------------------------------------------------")
     instrument = instrument if instrument else holding[INSTRUMENT]
-    print(f"Getting market price of: {instrument} from NSE")
-    nse_quote = None
-    try:
-        nse_quote = nse.get_quote(instrument)
-    except Exception as e:
-        print(f"Error getting market price of: {instrument} from NSE, error: {e}")
-    if not nse_quote or not nse_quote["closePrice"]:
-        print(f"Market price of: {instrument} not found on NSE")
-        holding = update_by_market_price_on_bse(holding, instrument)
-        return holding
-
-    holding = update_by_market_price_on_nse(nse_quote, holding, instrument)
+    holding = update_by_market_price_on_bse(holding, instrument)
     return holding
+
+    # print(f"Getting market price of: {instrument} from NSE")
+    # nse_quote = None
+    # try:
+    #     nse_quote = nse.get_quote(instrument)
+    # except Exception as e:
+    #     print(f"Error getting market price of: {instrument} from NSE, error: {e}")
+    # if not nse_quote or not nse_quote["closePrice"]:
+    #     print(f"Market price of: {instrument} not found on NSE")
+    #     holding = update_by_market_price_on_bse(holding, instrument)
+    #     return holding
+    #
+    # holding = update_by_market_price_on_nse(nse_quote, holding, instrument)
+    # return holding
 
 
 def update_by_market_price_on_nse(nse_quote, holding, instrument):
@@ -243,7 +256,7 @@ def update_by_market_price_on_bse(holding, instrument):
         return holding
 
     print(f"BSE: {bse_quote}")
-    if not instrument in bse_quote['securityID']:
+    if not instrument in bse_quote['securityID'] and not bse_quote['securityID'] in instrument:
         raise Exception(f"BSE securityID: {bse_quote['securityID']} not matching with {instrument}")
     curr_price = bse_quote['currentValue']
     print(f"Market price of: {instrument} on BSE: {curr_price}")
