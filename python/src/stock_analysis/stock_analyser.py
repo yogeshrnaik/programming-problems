@@ -6,6 +6,7 @@ from bsedata.bse import BSE
 
 PERCENTAGE_OF_INVESTED = "PERCENTAGE_OF_INVESTED"
 PERCENTAGE_OF_CURR_VALUE = "PERCENTAGE_OF_CURR_VALUE"
+ALL_CATEGORIES = "ALL_CATEGORIES"
 
 SYMBOLS_TO_FILTER = [
     "MAFANG", "HDFCBANK",
@@ -127,6 +128,13 @@ def stats_by_category(holdings_by_category):
     for category, stat in category_stats.items():
         stat[PERCENTAGE_OF_INVESTED] = 100 * stat.get(INVESTED) / total_invested
         stat[PERCENTAGE_OF_CURR_VALUE] = 100 * stat.get(CURR_VALUE) / total_curr_value
+
+    category_stats[ALL_CATEGORIES] = {
+        CURR_VALUE: total_curr_value,
+        INVESTED: total_invested,
+        PROFIT_LOSS: total_profit,
+    }
+
     return category_stats
 
 
@@ -135,15 +143,15 @@ def write_analysed_stock_holdings(holdings_by_category, category_stats):
     output = open("stock_output.csv", "w")
     # write_line(output, "Category,Instrument,Company Name,Quantity,Avg Cost,Invested Amount,Curr Market Price,Curr Value,P&L,% Net Change,% of 50Lacs,% of 75Lacs")
     write_line(output,
-               "Category,Instrument,Company Name,Quantity,Avg Cost,Invested Amount,Curr Market Price,Curr Value,P&L,% Net Change,% of Invested Amt,% of Curr Value")
+               f"Category,Instrument,Company Name,Quantity,Avg Cost,Invested Amount,Curr Market Price,Curr Value,P&L,% Net Change,% of Invested Amt Rs. {category_stats[ALL_CATEGORIES][INVESTED]},% of Curr Value Rs. {category_stats[ALL_CATEGORIES][CURR_VALUE]}")
 
     for category, holdings in holdings_by_category.items():
         for h in holdings:
             invested = float(h[QUANTITY]) * float(h[AVG_COST])
             curr_value = float(h[QUANTITY]) * float(h[LTP])
             # percentage_of_50lacs = 100 * invested / 5000000
-            percentage_of_invested = 100 * invested / category_stats[category][INVESTED]
-            percentage_of_curr_value = 100 * curr_value / category_stats[category][CURR_VALUE]
+            percentage_of_invested = 100 * invested / category_stats[ALL_CATEGORIES][INVESTED]
+            percentage_of_curr_value = 100 * curr_value / category_stats[ALL_CATEGORIES][CURR_VALUE]
             net_change = 100 * float(h[PROFIT_LOSS]) / invested
             company_name = h.get(COMPANY_NAME, h[INSTRUMENT])
             # line = f"{category},{h[INSTRUMENT]},{company_name},{h[QUANTITY]},{h[AVG_COST]},{invested},{h[LTP]}," \
