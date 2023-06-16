@@ -9,6 +9,7 @@ PERCENTAGE_OF_CURR_VALUE = "PERCENTAGE_OF_CURR_VALUE"
 ALL_CATEGORIES = "ALL_CATEGORIES"
 
 SYMBOLS_TO_FILTER = [
+    "SHRERA-RE",
     "MAFANG", "HDFCBANK",
     "SGBDE30III-GB", "SGBDEC30",
     "GOLDBEES", "JUNIORBEES", "LIQUIDBEES", "NIFTYBEES",
@@ -28,13 +29,13 @@ PERCENTAGE_OF_50L = "% of 50L"
 PERCENTAGE_OF_75L = "% of 75L"
 
 STOCK_CATEGORY = {
-    "CORE": ["HDFCBANK", "HINDUNILVR", "ITC", "ITC1", "NESTLEIND", "RELIANCE", "SIEMENS", "TATAELXSI", "TCS", "SBIN",
+    "1-CORE": ["HDFCBANK", "HINDUNILVR", "ITC", "ITC1", "NESTLEIND", "RELIANCE", "SIEMENS", "TCS", "SBIN",
              "INFY"],
-    "STRONG-NON-CORE": ["EUREKAFORBE", "IRCON", "IRFC", "MAXHEALTH", "MAXVIL", "POONAWALLA"],
-    "OTHER-NON-CORE": ["DUCOL-ST", "DUCOL-SM", "JYOTISTRUC", "JYOTISTRUC-BE", "JYOTISTRUC-BZ", "HCC", "HEMIPROP",
+    "2-STRONG-NON-CORE": ["EUREKAFORBE", "IRCON", "IRFC", "MAXHEALTH", "MAXVIL", "POONAWALLA", "TATAELXSI"],
+    "3-OTHER-NON-CORE": ["BEWLTD-SM", "DUCOL-ST", "DUCOL-SM", "JYOTISTRUC", "JYOTISTRUC-BE", "JYOTISTRUC-BZ", "HCC", "HEMIPROP",
                        "IDEA", "ISMTLTD",
                        "MADHAVBAUG-SM", "MAFANG", "RENUKA", "SHREERAMA", "SHRGLTR", "TTML"],
-    "PASSIVE": ["GOLDBEES", "JUNIORBEES", "LIQUIDBEES", "NIFTYBEES",
+    "4-PASSIVE": ["GOLDBEES", "JUNIORBEES", "LIQUIDBEES", "NIFTYBEES",
                 "GOLD BEES", "JUNIOR BEES", "LIQUID BEES", "NIFTY BEES", "SGBDEC30"],
 }
 
@@ -156,7 +157,7 @@ def write_analysed_stock_holdings(holdings_by_category, category_stats):
             company_name = h.get(COMPANY_NAME, h[INSTRUMENT])
             # line = f"{category},{h[INSTRUMENT]},{company_name},{h[QUANTITY]},{h[AVG_COST]},{invested},{h[LTP]}," \
             #        f"{h[CURR_VALUE]},{h[PROFIT_LOSS]},{net_change}%,{percentage_of_50lacs}%,{percentage_of_invested}%"
-            line = f"{category},{h[INSTRUMENT]},{company_name},{h[QUANTITY]},{h[AVG_COST]},{invested},{h[LTP]}," \
+            line = f"{category[2:]},{h[INSTRUMENT]},{company_name},{h[QUANTITY]},{h[AVG_COST]},{invested},{h[LTP]}," \
                    f"{h[CURR_VALUE]},{h[PROFIT_LOSS]},{net_change}%,{percentage_of_invested}%,{percentage_of_curr_value}%"
             write_line(output, line)
 
