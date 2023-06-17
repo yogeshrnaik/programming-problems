@@ -13,7 +13,6 @@ SYMBOLS_TO_FILTER = [
     "MAFANG", "HDFCBANK",
     "SGBDE30III-GB", "SGBDEC30",
     "GOLDBEES", "JUNIORBEES", "LIQUIDBEES", "NIFTYBEES",
-    "GOLD BEES", "JUNIOR BEES", "LIQUID BEES", "NIFTY BEES"
 ]
 
 INSTRUMENT = "Instrument"
@@ -30,16 +29,17 @@ PERCENTAGE_OF_75L = "% of 75L"
 
 STOCK_CATEGORY = {
     "1-CORE": ["HDFCBANK", "HINDUNILVR", "ITC", "ITC1", "NESTLEIND", "RELIANCE", "SIEMENS", "TCS", "SBIN",
-             "INFY"],
+               "INFY"],
     "2-STRONG-NON-CORE": ["EUREKAFORBE", "IRCON", "IRFC", "MAXHEALTH", "MAXVIL", "POONAWALLA", "TATAELXSI"],
-    "3-OTHER-NON-CORE": ["BEWLTD-SM", "DUCOL-ST", "DUCOL-SM", "JYOTISTRUC", "JYOTISTRUC-BE", "JYOTISTRUC-BZ", "HCC", "HEMIPROP",
-                       "IDEA", "ISMTLTD",
-                       "MADHAVBAUG-SM", "MAFANG", "RENUKA", "SHREERAMA", "SHRGLTR", "TTML"],
-    "4-PASSIVE": ["GOLDBEES", "JUNIORBEES", "LIQUIDBEES", "NIFTYBEES",
-                "GOLD BEES", "JUNIOR BEES", "LIQUID BEES", "NIFTY BEES", "SGBDEC30"],
+    "3-OTHER-NON-CORE": ["BEWLTD-SM", "DUCOL-ST", "DUCOL-SM", "JYOTISTRUC", "JYOTISTRUC-BE", "JYOTISTRUC-BZ", "HCC",
+                         "HEMIPROP",
+                         "IDEA", "ISMTLTD",
+                         "MADHAVBAUG-SM", "MAFANG", "RENUKA", "SHREERAMA", "SHRGLTR", "TTML"],
+    "4-PASSIVE": ["GOLDBEES", "JUNIORBEES", "LIQUIDBEES", "NIFTYBEES", "SGBDEC30", "SGBDE30III-GB"],
 }
 
 BSE_CODES = {
+    "HDFCBANK": "500180",
     "EUREKAFORBE": "543482",
     "GOLDBEES": "590095",
     "JUNIORBEES": "590104",
@@ -184,8 +184,10 @@ def calc_global_total(category_stat, global_total):
     global_total[CURR_VALUE] = global_total.get(CURR_VALUE, 0) + category_stat[CURR_VALUE]
     global_total[PROFIT_LOSS] = global_total.get(PROFIT_LOSS, 0) + category_stat[PROFIT_LOSS]
     # global_total[PERCENTAGE_OF_50L] = global_total.get(PERCENTAGE_OF_50L, 0) + category_stat[PERCENTAGE_OF_50L]
-    global_total[PERCENTAGE_OF_INVESTED] = global_total.get(PERCENTAGE_OF_INVESTED, 0) + category_stat[PERCENTAGE_OF_INVESTED]
-    global_total[PERCENTAGE_OF_CURR_VALUE] = global_total.get(PERCENTAGE_OF_CURR_VALUE, 0) + category_stat[PERCENTAGE_OF_CURR_VALUE]
+    global_total[PERCENTAGE_OF_INVESTED] = global_total.get(PERCENTAGE_OF_INVESTED, 0) + category_stat[
+        PERCENTAGE_OF_INVESTED]
+    global_total[PERCENTAGE_OF_CURR_VALUE] = global_total.get(PERCENTAGE_OF_CURR_VALUE, 0) + category_stat[
+        PERCENTAGE_OF_CURR_VALUE]
 
 
 def print_sub_total(category, category_stats, output):
@@ -213,19 +215,26 @@ def print_holdings(holdings):
 
 
 def add_hdfc_securities(holdings):
-    holdings.append(update_by_market_price({INSTRUMENT: "INFY", AVG_COST: "551.86", QUANTITY: "50"}))
-    holdings.append(update_by_market_price({INSTRUMENT: "SBIN", AVG_COST: "182.67", QUANTITY: "500"}))
-    holdings.append(update_by_market_price({INSTRUMENT: "ITC", AVG_COST: "159.11", QUANTITY: "100", }, "ITC"))
-    holdings.append(update_by_market_price({INSTRUMENT: "GOLD BEES", AVG_COST: "41.90", QUANTITY: "666"}, "GOLDBEES"))
-    holdings.append(update_by_market_price(
-        {INSTRUMENT: "JUNIOR BEES", AVG_COST: "452.92", QUANTITY: "6"}, "JUNIORBEES"
-    ))
-    holdings.append(update_by_market_price(
-        {INSTRUMENT: "LIQUID BEES", AVG_COST: "1012.71", QUANTITY: "11"}, "LIQUIDBEES"
-    ))
-    holdings.append(update_by_market_price(
-        {INSTRUMENT: "NIFTY BEES", AVG_COST: "172.89", QUANTITY: "229"}, "NIFTYBEES"
-    ))
+    update_by_market_price(avg_out(holdings, {INSTRUMENT: "INFY", AVG_COST: "551.86", QUANTITY: "50"}))
+    update_by_market_price(avg_out(holdings, {INSTRUMENT: "ITC", AVG_COST: "159.11", QUANTITY: "100"}))
+    update_by_market_price(avg_out(holdings, {INSTRUMENT: "SBIN", AVG_COST: "182.67", QUANTITY: "500"}))
+    update_by_market_price(avg_out(holdings, {INSTRUMENT: "GOLDBEES", AVG_COST: "41.90", QUANTITY: "666"}))
+    update_by_market_price(avg_out(holdings, {INSTRUMENT: "JUNIORBEES", AVG_COST: "452.92", QUANTITY: "6"}))
+    update_by_market_price(avg_out(holdings, {INSTRUMENT: "LIQUIDBEES", AVG_COST: "1012.71", QUANTITY: "11"}))
+    update_by_market_price(avg_out(holdings, {INSTRUMENT: "NIFTYBEES", AVG_COST: "172.89", QUANTITY: "229"}))
+
+
+def avg_out(holdings, newHolding):
+    for h in holdings:
+        if h[INSTRUMENT] == newHolding[INSTRUMENT]:
+            total_quantity = float(h[QUANTITY]) + float(newHolding[QUANTITY])
+            avg_cost = (float(h[AVG_COST]) * float(h[QUANTITY]) + (float(newHolding[AVG_COST]) * float(newHolding[QUANTITY]))) / total_quantity
+            h[QUANTITY] = total_quantity
+            h[AVG_COST] = format(avg_cost, ".2f")
+            return h
+    # if it is really a new holding then just append to holdings
+    holdings.append(newHolding)
+    return newHolding
 
 
 def update_by_market_price(holding, instrument=""):
