@@ -28,13 +28,12 @@ PERCENTAGE_OF_50L = "% of 50L"
 PERCENTAGE_OF_75L = "% of 75L"
 
 STOCK_CATEGORY = {
-    "1-CORE": ["HDFCBANK", "HINDUNILVR", "ITC", "ITC1", "NESTLEIND", "RELIANCE", "SIEMENS", "TCS", "SBIN",
-               "INFY"],
+    "1-CORE": ["HDFCBANK", "HINDUNILVR", "ITC", "ITC1", "NESTLEIND", "RELIANCE", "SIEMENS", "TCS", "SBIN", "INFY"],
     "2-STRONG-NON-CORE": ["EUREKAFORBE", "IRCON", "IRFC", "MAXHEALTH", "MAXVIL", "POONAWALLA", "TATAELXSI"],
-    "3-OTHER-NON-CORE": ["BEWLTD-SM", "DUCOL-ST", "DUCOL-SM", "JYOTISTRUC", "JYOTISTRUC-BE", "JYOTISTRUC-BZ", "HCC",
-                         "HEMIPROP",
-                         "IDEA", "ISMTLTD",
-                         "MADHAVBAUG-SM", "MAFANG", "RENUKA", "SHREERAMA", "SHRGLTR", "TTML"],
+    "3-OTHER-NON-CORE": [
+        "BEWLTD-SM", "DUCOL-ST", "DUCOL-SM", "JYOTISTRUC", "JYOTISTRUC-BE", "JYOTISTRUC-BZ", "HCC",
+        "HEMIPROP", "IDEA", "ISMTLTD", "MADHAVBAUG-SM", "MAFANG", "RENUKA", "SHREERAMA", "SHRGLTR", "TTML"
+    ],
     "4-PASSIVE": ["GOLDBEES", "JUNIORBEES", "LIQUIDBEES", "NIFTYBEES", "SGBDEC30", "SGBDE30III-GB"],
 }
 
@@ -228,7 +227,8 @@ def avg_out(holdings, newHolding):
     for h in holdings:
         if h[INSTRUMENT] == newHolding[INSTRUMENT]:
             total_quantity = float(h[QUANTITY]) + float(newHolding[QUANTITY])
-            avg_cost = (float(h[AVG_COST]) * float(h[QUANTITY]) + (float(newHolding[AVG_COST]) * float(newHolding[QUANTITY]))) / total_quantity
+            avg_cost = (float(h[AVG_COST]) * float(h[QUANTITY]) + (
+                    float(newHolding[AVG_COST]) * float(newHolding[QUANTITY]))) / total_quantity
             h[QUANTITY] = total_quantity
             h[AVG_COST] = format(avg_cost, ".2f")
             return h
