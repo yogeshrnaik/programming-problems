@@ -3,4 +3,4 @@ indices.json
 stk.json
 .idea
 target
-kibana_response.json
+**/log_analysis/*.json
