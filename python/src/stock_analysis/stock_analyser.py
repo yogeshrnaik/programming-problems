@@ -9,11 +9,9 @@ PERCENTAGE_OF_CURR_VALUE = "PERCENTAGE_OF_CURR_VALUE"
 ALL_CATEGORIES = "ALL_CATEGORIES"
 
 SYMBOLS_TO_FILTER = [
-    "SHRERA-RE",
-    "EUREKAFORBE",
-    "SBICARD",
-    "MAFANG", "HDFCBANK",
-    "SGBDE30III-GB", "SGBDEC30", "SGBJUN31I-GB", "SGBJUNE31",
+    "SBICARD", "HDFCBANK",
+    "MAFANG",
+    "SGBDE30III-GB", "SGBDEC30", "SGBJUN31I-GB", "SGBJUNE31", "SGBDEC31", "SGBDE31III-GB",
     "GOLDBEES", "JUNIORBEES", "LIQUIDBEES", "NIFTYBEES",
 ]
 
@@ -30,11 +28,11 @@ PERCENTAGE_OF_50L = "% of 50L"
 PERCENTAGE_OF_75L = "% of 75L"
 
 STOCK_CATEGORY = {
-    "1-CORE": ["HDFCBANK", "HINDUNILVR", "ITC", "ITC1", "JIOFIN", "NESTLEIND", "RELIANCE", "SIEMENS", "TCS", "SBIN", "INFY"],
-    "2-STRONG-NON-CORE": ["EUREKAFORBE", "JSWINFRA", "IRCON", "IRFC", "MAXHEALTH", "MAXVIL", "POONAWALLA", "TATAELXSI"],
+    "1-CORE": ["HDFCBANK", "HINDUNILVR", "ITC", "ITC1", "NESTLEIND", "RELIANCE", "SIEMENS", "TCS", "SBIN", "INFY"],
+    "2-STRONG-NON-CORE": ["EUREKAFORBE", "JSWINFRA", "IRCON", "IRFC", "JIOFIN", "MAXHEALTH", "MAXVIL", "POONAWALLA", "TATAELXSI", "SBICARD"],
     "3-OTHER-NON-CORE": [
-        "BEWLTD-SM", "CHOICEIN", "DUCOL-ST", "DUCOL-SM", "JYOTISTRUC", "JYOTISTRUC-BE", "JYOTISTRUC-BZ", "HCC",
-        "HEMIPROP", "IDEA", "ISMTLTD", "LSIL", "LSIL-BE", "LLOYDSTEEL", "LLOYDSENGG", "LLOYDSENGG-BE", "LLOYDSENT", "MADHAVBAUG-SM", "MAFANG", "PYRAMID", "PYRAMID-BE", "RENUKA",
+        "ACCENTMIC-SM", "BEWLTD-SM", "CHOICEIN", "DUCOL-ST", "DUCOL-SM", "EFCIL", "JYOTISTRUC", "JYOTISTRUC-BE", "JYOTISTRUC-BZ", "HCC",
+        "HEMIPROP", "IDEA", "ISMTLTD", "LSIL", "LSIL-BE", "LLOYDSTEEL", "LLOYDSENGG", "LLOYDSENGG-BE", "LLOYDSENT", "MADHAVBAUG-SM", "MAFANG", "PVP", "PYRAMID", "PYRAMID-BE", "RENUKA",
         "SANGHIIND", "SANGHIIND-BE", "SHREERAMA", "SHREERAMA-BE", "SHRGLTR", "SWSOLAR", "SWSOLAR-BE", "TANAA", "TTML"
     ],
     "4-PASSIVE": ["GOLDBEES", "JUNIORBEES", "LIQUIDBEES", "NIFTYBEES", "SGBDEC30", "SGBDE30III-GB", "SGBJUNE31"],
@@ -87,6 +85,8 @@ BSE_CODES = {
     "PYRAMID-BE": "543969",
     "TANAA": "522229",
     "JSWINFRA": "543994",
+    "EFCIL": "512008",
+    "PVP": "517556",
 }
 
 nse = Nse()
@@ -236,10 +236,6 @@ def add_hdfc_securities(holdings):
     update_by_market_price(avg_out(holdings, {INSTRUMENT: "INFY", AVG_COST: "551.86", QUANTITY: "50"}))
     update_by_market_price(avg_out(holdings, {INSTRUMENT: "ITC", AVG_COST: "159.11", QUANTITY: "100"}))
     update_by_market_price(avg_out(holdings, {INSTRUMENT: "SBIN", AVG_COST: "182.67", QUANTITY: "500"}))
-    update_by_market_price(avg_out(holdings, {INSTRUMENT: "GOLDBEES", AVG_COST: "41.90", QUANTITY: "666"}))
-    update_by_market_price(avg_out(holdings, {INSTRUMENT: "JUNIORBEES", AVG_COST: "452.92", QUANTITY: "6"}))
-    update_by_market_price(avg_out(holdings, {INSTRUMENT: "LIQUIDBEES", AVG_COST: "1012.71", QUANTITY: "11"}))
-    update_by_market_price(avg_out(holdings, {INSTRUMENT: "NIFTYBEES", AVG_COST: "172.89", QUANTITY: "229"}))
 
 
 def avg_out(holdings, newHolding):
@@ -296,7 +292,7 @@ def update_by_market_price_on_nse(nse_quote, holding, instrument):
     return holding
 
 
-def update_by_market_price_on_bse(holding, instrument):
+def update_by_market_price_on_bse(holding, instrument, retry=1):
     bse_instrument = BSE_CODES.get(instrument)
     if not bse_instrument:
         print(f"BSE code not found for: {instrument}")
@@ -308,8 +304,11 @@ def update_by_market_price_on_bse(holding, instrument):
         return holding
 
     print(f"BSE: {bse_quote}")
-    if not instrument in bse_quote['securityID'] and not bse_quote['securityID'] in instrument:
-        raise Exception(f"BSE securityID: {bse_quote['securityID']} not matching with {instrument}")
+    if not bse_quote.get('securityID') or (not instrument in bse_quote.get('securityID') and not bse_quote.get('securityID') in instrument):
+        if retry < 100:
+            return update_by_market_price_on_bse(holding, instrument, retry=retry+1)
+        else:
+            raise Exception(f"BSE securityID: {bse_quote['securityID']} not matching with {instrument}")
     curr_price = bse_quote['currentValue']
     print(f"Market price of: {instrument} on BSE: {curr_price}")
     curr_val = float(holding[QUANTITY]) * float(curr_price)
