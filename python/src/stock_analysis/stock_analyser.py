@@ -11,7 +11,8 @@ ALL_CATEGORIES = "ALL_CATEGORIES"
 SYMBOLS_TO_FILTER = [
     "SBICARD", "HDFCBANK",
     "MAFANG",
-    "SGBDE30III-GB", "SGBDEC30", "SGBJUN31I-GB", "SGBJUNE31", "SGBDEC31", "SGBDE31III-GB",
+    "SGBDE30III-GB", "SGBDEC30", "SGBJUN31I-GB", "SGBJUNE31", "SGBDEC31", "SGBDE31III-GB", "SGBDE31III",
+    "SGBDE30III", "SGBJUN31I",
     "GOLDBEES", "JUNIORBEES", "LIQUIDBEES", "NIFTYBEES",
 ]
 
@@ -33,7 +34,7 @@ STOCK_CATEGORY = {
     "3-OTHER-NON-CORE": [
         "ACCENTMIC-SM", "BEWLTD-SM", "CHOICEIN", "DUCOL-ST", "DUCOL-SM", "EFCIL", "JYOTISTRUC", "JYOTISTRUC-BE", "JYOTISTRUC-BZ", "HCC",
         "HEMIPROP", "IDEA", "ISMTLTD", "LSIL", "LSIL-BE", "LLOYDSTEEL", "LLOYDSENGG", "LLOYDSENGG-BE", "LLOYDSENT", "MADHAVBAUG-SM", "MAFANG", "PVP", "PYRAMID", "PYRAMID-BE", "RENUKA",
-        "SANGHIIND", "SANGHIIND-BE", "SHREERAMA", "SHREERAMA-BE", "SHRGLTR", "SWSOLAR", "SWSOLAR-BE", "TANAA", "TTML"
+        "SANGHIIND", "SANGHIIND-BE", "SHREERAMA", "SHREERAMA-BE", "SHRGLTR", "SWSOLAR", "SWSOLAR-BE", "TANAA", "TTML", "TCC"
     ],
     "4-PASSIVE": ["GOLDBEES", "JUNIORBEES", "LIQUIDBEES", "NIFTYBEES", "SGBDEC30", "SGBDE30III-GB", "SGBJUNE31"],
 }
@@ -86,7 +87,31 @@ BSE_CODES = {
     "TANAA": "522229",
     "JSWINFRA": "543994",
     "EFCIL": "512008",
+    "TCC": "512038",
     "PVP": "517556",
+}
+
+UPDATED_QUANTITIES = {
+    "BEWLTD-SM": 375 * 3,
+    "EFCIL": 1000,
+    "HCC": 17500,
+    "HEMIPROP": 4000,
+    "HINDUNILVR": 75,
+    "IDEA": 35000,
+    "INFY": 50,
+    "IRFC": 7500,
+    "JYOTISTRUC": 17500,
+    "LLOYDSENGG": 17500,
+    "NESTLEIND": 200,
+    "PVP": 20000,
+    "SHREERAMA-BE": 17500,
+    "SHREERAMA": 17500,
+    "SIEMENS": 75,
+    "SWSOLAR": 1800,
+    "TANAA": 1800,
+    "TATAELXSI": 50,
+    "TCC": 750,
+    "TCS": 50
 }
 
 nse = Nse()
@@ -233,8 +258,8 @@ def print_holdings(holdings):
 
 
 def add_hdfc_securities(holdings):
-    update_by_market_price(avg_out(holdings, {INSTRUMENT: "INFY", AVG_COST: "551.86", QUANTITY: "50"}))
-    update_by_market_price(avg_out(holdings, {INSTRUMENT: "ITC", AVG_COST: "159.11", QUANTITY: "100"}))
+    # update_by_market_price(avg_out(holdings, {INSTRUMENT: "INFY", AVG_COST: "551.86", QUANTITY: "50"}))
+    # update_by_market_price(avg_out(holdings, {INSTRUMENT: "ITC", AVG_COST: "159.11", QUANTITY: "100"}))
     update_by_market_price(avg_out(holdings, {INSTRUMENT: "SBIN", AVG_COST: "182.67", QUANTITY: "500"}))
 
 
@@ -330,13 +355,20 @@ def filter(holdings):
     symbols_to_filter = SYMBOLS_TO_FILTER
     return [h for h in holdings if h[INSTRUMENT] not in symbols_to_filter]
 
+def update_quantities(holdings):
+    for h in holdings:
+        if UPDATED_QUANTITIES.get(h[INSTRUMENT]):
+            h[QUANTITY] = UPDATED_QUANTITIES.get(h[INSTRUMENT]) or h[QUANTITY]
+        else:
+            print(f"Quantity not updated for: {h[INSTRUMENT]}")
+    return holdings
 
 def generate_stock_report():
     holdings = read_stock_holdings(
         "/Users/yogeshnaik/Yogesh/workspace/personal/programming-problems/python/src/stock_analysis/holdings.csv"
-        # "/Users/yogeshrnaik/Yogesh/workspace/programming-problems/python/src/stock_analysis/holdings.csv"
     )
-    add_hdfc_securities(holdings)
+    # add_hdfc_securities(holdings)
+    holdings = update_quantities(holdings)
     holdings = filter(holdings)
     update_all_holdings_by_market_price(holdings)
     holdings_by_category, category_stats = analyse_stock_holdings(holdings)
