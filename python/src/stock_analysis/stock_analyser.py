@@ -30,9 +30,9 @@ PERCENTAGE_OF_75L = "% of 75L"
 
 STOCK_CATEGORY = {
     "1-CORE": ["HDFCBANK", "HINDUNILVR", "ITC", "ITC1", "NESTLEIND", "RELIANCE", "SIEMENS", "TCS", "SBIN", "INFY"],
-    "2-STRONG-NON-CORE": ["EUREKAFORBE", "JSWINFRA", "IRCON", "IRFC", "JIOFIN", "MAXHEALTH", "MAXVIL", "POONAWALLA", "TATAELXSI", "SBICARD"],
+    "2-STRONG-NON-CORE": ["BSE", "EUREKAFORBE", "JSWINFRA", "IRCON", "IRFC", "JIOFIN", "MAXHEALTH", "MAXVIL", "POONAWALLA", "TATAELXSI", "SBICARD"],
     "3-OTHER-NON-CORE": [
-        "ACCENTMIC-SM", "BEWLTD-SM", "CHOICEIN", "DUCOL-ST", "DUCOL-SM", "EFCIL", "JYOTISTRUC", "JYOTISTRUC-BE", "JYOTISTRUC-BZ", "HCC",
+        "ACCENTMIC-SM", "BEWLTD-SM", "BEWLTD-ST", "CHOICEIN", "DUCOL-ST", "DUCOL-SM", "EFCIL", "JYOTISTRUC", "JYOTISTRUC-BE", "JYOTISTRUC-BZ", "HCC",
         "HEMIPROP", "IDEA", "ISMTLTD", "LSIL", "LSIL-BE", "LLOYDSTEEL", "LLOYDSENGG", "LLOYDSENGG-BE", "LLOYDSENT", "MADHAVBAUG-SM", "MAFANG", "PVP", "PYRAMID", "PYRAMID-BE", "RENUKA",
         "SANGHIIND", "SANGHIIND-BE", "SHREERAMA", "SHREERAMA-BE", "SHRGLTR", "SWSOLAR", "SWSOLAR-BE", "TANAA", "TTML", "TCC"
     ],
@@ -93,15 +93,16 @@ BSE_CODES = {
 
 UPDATED_QUANTITIES = {
     "BEWLTD-SM": 375 * 3,
+    "BEWLTD-ST": 375 * 3,
+    "BSE": 300,
     "EFCIL": 1000,
     "HCC": 17500,
     "HEMIPROP": 4000,
     "HINDUNILVR": 75,
-    "IDEA": 35000,
     "INFY": 50,
     "IRFC": 7500,
     "JYOTISTRUC": 17500,
-    "LLOYDSENGG": 17500,
+    "LLOYDSENGG": 15000,
     "NESTLEIND": 200,
     "PVP": 20000,
     "SHREERAMA-BE": 17500,
@@ -196,12 +197,11 @@ def write_analysed_stock_holdings(holdings_by_category, category_stats):
             # percentage_of_50lacs = 100 * invested / 5000000
             percentage_of_invested = 100 * invested / category_stats[ALL_CATEGORIES][INVESTED]
             percentage_of_curr_value = 100 * curr_value / category_stats[ALL_CATEGORIES][CURR_VALUE]
+            print(f"{category} - {h[INSTRUMENT]} -{h[QUANTITY]} - {h[AVG_COST]} - {invested} - {h[LTP]}")
             net_change = 100 * float(h[PROFIT_LOSS]) / invested
             company_name = h.get(COMPANY_NAME, h[INSTRUMENT])
-            # line = f"{category},{h[INSTRUMENT]},{company_name},{h[QUANTITY]},{h[AVG_COST]},{invested},{h[LTP]}," \
-            #        f"{h[CURR_VALUE]},{h[PROFIT_LOSS]},{net_change}%,{percentage_of_50lacs}%,{percentage_of_invested}%"
             line = f"{category[2:]},{h[INSTRUMENT]},{company_name},{h[QUANTITY]},{h[AVG_COST]},{invested},{h[LTP]}," \
-                   f"{h[CURR_VALUE]},{h[PROFIT_LOSS]},{net_change}%,{percentage_of_invested}%,{percentage_of_curr_value}%"
+                   f"{curr_value},{h[PROFIT_LOSS]},{net_change}%,{percentage_of_invested}%,{percentage_of_curr_value}%"
             write_line(output, line)
 
         category_stat = print_sub_total(category, category_stats, output)
