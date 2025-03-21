@@ -2,6 +2,7 @@ package com.programming.propertybasedtesting;
 
 
 import java.util.regex.Pattern;
+
 public class PropertyBasedTestingExample {
 }
 
@@ -21,10 +22,21 @@ class User {
     }
 
     // Getters
-    public String getName() { return name; }
-    public String getEmail() { return email; }
-    public String getPhone() { return phone; }
-    public String getAddress() { return address; }
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
 }
 
 // UserValidator contains the validation logic
@@ -68,10 +80,21 @@ class ProcessedUser {
     }
 
     // Getters
-    public long getUserId() { return userId; }
-    public String getFullName() { return fullName; }
-    public ContactInfo getContact() { return contact; }
-    public String getShippingAddress() { return shippingAddress; }
+    public long getUserId() {
+        return userId;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public ContactInfo getContact() {
+        return contact;
+    }
+
+    public String getShippingAddress() {
+        return shippingAddress;
+    }
 }
 
 class ContactInfo {
@@ -84,8 +107,13 @@ class ContactInfo {
     }
 
     // Getters
-    public String getEmail() { return email; }
-    public String getPhone() { return phone; }
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
 }
 
 class UserService {
@@ -125,7 +153,11 @@ class UserData {
         this.isValid = isValid;
     }
 
-    public User getUser() { return user; }
-    public boolean isValid() { return isValid; }
-}
+    public User getUser() {
+        return user;
+    }
 
+    public boolean isValid() {
+        return isValid;
+    }
+}
