@@ -175,9 +175,9 @@ def stats_by_category(holdings_by_category):
         category_stats[category] = stat
 
     for category, stat in category_stats.items():
-        stat[PERCENTAGE_OF_INVESTED] = 100 * stat.get(INVESTED) / total_invested
-        stat[PERCENTAGE_OF_CURR_VALUE] = 100 * stat.get(CURR_VALUE) / total_curr_value
-        stat[PERCENTAGE_CHANGE] = "{:.2f}".format(100 * stat.get(PROFIT_LOSS) / stat.get(INVESTED))
+        stat[PERCENTAGE_OF_INVESTED] = round(100 * stat.get(INVESTED) / total_invested, 2)
+        stat[PERCENTAGE_OF_CURR_VALUE] = round(100 * stat.get(CURR_VALUE) / total_curr_value, 2)
+        stat[PERCENTAGE_CHANGE] = round(100 * stat.get(PROFIT_LOSS) / stat.get(INVESTED), 2)
 
     category_stats[ALL_CATEGORIES] = {
         CURR_VALUE: total_curr_value,
@@ -199,10 +199,10 @@ def write_analysed_stock_holdings(holdings_by_category, category_stats):
             invested = float(h[QUANTITY]) * float(h[AVG_COST])
             curr_value = float(h[QUANTITY]) * float(h[LTP])
             h[PROFIT_LOSS] = curr_value - invested
-            percentage_of_invested = 100 * invested / category_stats[ALL_CATEGORIES][INVESTED]
-            percentage_of_curr_value = 100 * curr_value / category_stats[ALL_CATEGORIES][CURR_VALUE]
+            percentage_of_invested = round(100 * invested / category_stats[ALL_CATEGORIES][INVESTED], 2)
+            percentage_of_curr_value = round(100 * curr_value / category_stats[ALL_CATEGORIES][CURR_VALUE], 2)
             print(f"{category} - {h[INSTRUMENT]} -{h[QUANTITY]} - {h[AVG_COST]} - {invested} - {h[LTP]}")
-            net_change = 100 * float(h[PROFIT_LOSS]) / invested
+            net_change = round(100 * float(h[PROFIT_LOSS]) / invested, 2)
             company_name = h.get(COMPANY_NAME, h[INSTRUMENT])
             line = f'{category[2:]},{h[INSTRUMENT]},{company_name},{h[QUANTITY]},{h[AVG_COST]},"{format_indian_number(invested)}",{h[LTP]},"{format_indian_number(curr_value)}","{format_indian_number(h[PROFIT_LOSS])}",{net_change}%,{percentage_of_invested}%,{percentage_of_curr_value}%'
             write_line(output, line)
@@ -224,7 +224,7 @@ def format_indian_number(number, decimal_places=0):
     number = float(number)
     is_negative = number < 0
     number = abs(number)
-    str_number = "{:.2f}".format(number)
+    str_number = "{}".format(number)
     parts = str_number.split('.')
     integer_part = parts[0]
     decimal_part = parts[1]
@@ -262,11 +262,9 @@ def calc_global_total(category_stat, global_total):
     global_total[INVESTED] = global_total.get(INVESTED, 0) + category_stat[INVESTED]
     global_total[CURR_VALUE] = global_total.get(CURR_VALUE, 0) + category_stat[CURR_VALUE]
     global_total[PROFIT_LOSS] = global_total.get(PROFIT_LOSS, 0) + category_stat[PROFIT_LOSS]
-    global_total[PERCENTAGE_OF_INVESTED] = global_total.get(PERCENTAGE_OF_INVESTED, 0) + category_stat[
-        PERCENTAGE_OF_INVESTED]
-    global_total[PERCENTAGE_OF_CURR_VALUE] = global_total.get(PERCENTAGE_OF_CURR_VALUE, 0) + category_stat[
-        PERCENTAGE_OF_CURR_VALUE]
-    global_total[PERCENTAGE_CHANGE] = "{:.2f}".format(100 * global_total.get(PROFIT_LOSS, 0) / global_total.get(INVESTED, 0))
+    global_total[PERCENTAGE_OF_INVESTED] = round(global_total.get(PERCENTAGE_OF_INVESTED, 0) + category_stat[PERCENTAGE_OF_INVESTED], 0)
+    global_total[PERCENTAGE_OF_CURR_VALUE] = round(global_total.get(PERCENTAGE_OF_CURR_VALUE, 0) + category_stat[PERCENTAGE_OF_CURR_VALUE], 0)
+    global_total[PERCENTAGE_CHANGE] = "{}".format(round(100 * global_total.get(PROFIT_LOSS, 0) / global_total.get(INVESTED, 0), 0))
 
 
 def print_sub_total(category, category_stats, output):
