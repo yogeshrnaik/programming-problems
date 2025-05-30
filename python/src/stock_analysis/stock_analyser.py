@@ -215,7 +215,7 @@ def write_analysed_stock_holdings(holdings_by_category, category_stats):
 
 
 def print_global_total(global_total, output):
-    line = f'Grand-Total,,,,,"{format_indian_number(global_total[INVESTED])}",,"{format_indian_number(global_total[CURR_VALUE])}","{format_indian_number(global_total[PROFIT_LOSS])}",{global_total[PERCENTAGE_CHANGE]},{global_total[PERCENTAGE_OF_INVESTED]},{global_total[PERCENTAGE_OF_CURR_VALUE]}'
+    line = f'Grand-Total,,,,,"{format_indian_number(global_total[INVESTED])}",,"{format_indian_number(global_total[CURR_VALUE])}","{format_indian_number(global_total[PROFIT_LOSS])}",{global_total[PERCENTAGE_CHANGE]}%,{global_total[PERCENTAGE_OF_INVESTED]}%,{global_total[PERCENTAGE_OF_CURR_VALUE]}%'
     write_line(output, line)
 
 
@@ -262,14 +262,14 @@ def calc_global_total(category_stat, global_total):
     global_total[INVESTED] = global_total.get(INVESTED, 0) + category_stat[INVESTED]
     global_total[CURR_VALUE] = global_total.get(CURR_VALUE, 0) + category_stat[CURR_VALUE]
     global_total[PROFIT_LOSS] = global_total.get(PROFIT_LOSS, 0) + category_stat[PROFIT_LOSS]
-    global_total[PERCENTAGE_OF_INVESTED] = round(global_total.get(PERCENTAGE_OF_INVESTED, 0) + category_stat[PERCENTAGE_OF_INVESTED], 0)
-    global_total[PERCENTAGE_OF_CURR_VALUE] = round(global_total.get(PERCENTAGE_OF_CURR_VALUE, 0) + category_stat[PERCENTAGE_OF_CURR_VALUE], 0)
+    global_total[PERCENTAGE_OF_INVESTED] = "100"
+    global_total[PERCENTAGE_OF_CURR_VALUE] = "100"
     global_total[PERCENTAGE_CHANGE] = "{}".format(round(100 * global_total.get(PROFIT_LOSS, 0) / global_total.get(INVESTED, 0), 0))
 
 
 def print_sub_total(category, category_stats, output):
     category_stat = category_stats[category]
-    line = f'Sub-Total,,,,,"{format_indian_number(category_stat[INVESTED])}",,"{format_indian_number(category_stat[CURR_VALUE])}","{format_indian_number(category_stat[PROFIT_LOSS])}",{category_stat[PERCENTAGE_CHANGE]},{category_stat[PERCENTAGE_OF_INVESTED]}%,{category_stat[PERCENTAGE_OF_CURR_VALUE]}%'
+    line = f'Sub-Total,,,,,"{format_indian_number(category_stat[INVESTED])}",,"{format_indian_number(category_stat[CURR_VALUE])}","{format_indian_number(category_stat[PROFIT_LOSS])}",{category_stat[PERCENTAGE_CHANGE]}%,{category_stat[PERCENTAGE_OF_INVESTED]}%,{category_stat[PERCENTAGE_OF_CURR_VALUE]}%'
     write_line(output, line)
     return category_stat
 
