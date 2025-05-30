@@ -270,7 +270,6 @@ def print_sub_total(category, category_stats, output):
     category_stat = category_stats[category]
     line = f'Sub-Total,,,,,"{format_indian_number(category_stat[INVESTED])}",,"{format_indian_number(category_stat[CURR_VALUE])}","{format_indian_number(category_stat[PROFIT_LOSS])}",{category_stat[PERCENTAGE_CHANGE]},{category_stat[PERCENTAGE_OF_INVESTED]}%,{category_stat[PERCENTAGE_OF_CURR_VALUE]}%'
     write_line(output, line)
-    # write_line(output, ",,,,,,,,,")
     return category_stat
 
 
