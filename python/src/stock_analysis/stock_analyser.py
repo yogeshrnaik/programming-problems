@@ -1,5 +1,8 @@
 import csv
 import json
+import concurrent.futures
+import time
+from functools import wraps
 
 from nsetools import nse, Nse
 from bsedata.bse import BSE
@@ -348,15 +351,42 @@ def update_by_market_price_on_nse(nse_quote, holding, instrument):
     return holding
 
 
+def retry_on_none_error(max_retries=3, delay=1):
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            for attempt in range(max_retries):
+                try:
+                    result = func(*args, **kwargs)
+                    if result is not None:
+                        return result
+                    raise AttributeError("Result is None")
+                except AttributeError as e:
+                    if attempt == max_retries - 1:
+                        raise
+                    print(f"Attempt {attempt + 1} failed, retrying in {delay} seconds...")
+                    time.sleep(delay)
+            return None
+        return wrapper
+    return decorator
+
+@retry_on_none_error(max_retries=3, delay=2)
+def get_bse_quote(bse_instrument):
+    return bse.getQuote(bse_instrument)
+
 def update_by_market_price_on_bse(holding, instrument, retry=1):
     bse_instrument = BSE_CODES.get(instrument)
     if not bse_instrument:
         print(f"BSE code not found for: {instrument}")
         return holding
     print(f"Getting market price of: {instrument} on BSE with code: {bse_instrument}")
-    bse_quote = bse.getQuote(bse_instrument)
-    if not bse_quote:
-        print(f"Market price of: {instrument} not found on BSE with code: {bse_instrument}")
+    try:
+        bse_quote = get_bse_quote(bse_instrument)
+        if not bse_quote:
+            print(f"Market price of: {instrument} not found on BSE with code: {bse_instrument}")
+            return holding
+    except AttributeError:
+        print(f"Failed to fetch quote for {instrument} after retries")
         return holding
 
     print(f"BSE: {bse_quote}")
@@ -378,8 +408,12 @@ def update_by_market_price_on_bse(holding, instrument, retry=1):
 
 
 def update_all_holdings_by_market_price(holdings):
-    for h in holdings:
-        update_by_market_price(h)
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        # Submit all tasks and get their futures
+        futures = [executor.submit(update_by_market_price, h) for h in holdings]
+        # Wait for all tasks to complete and gather results
+        updated_holdings = [f.result() for f in concurrent.futures.as_completed(futures)]
+    return updated_holdings
 
 
 def filter(holdings):
