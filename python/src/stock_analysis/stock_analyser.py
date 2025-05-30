@@ -194,6 +194,7 @@ def write_analysed_stock_holdings(holdings_by_category, category_stats):
         for h in holdings:
             invested = float(h[QUANTITY]) * float(h[AVG_COST])
             curr_value = float(h[QUANTITY]) * float(h[LTP])
+            h[PROFIT_LOSS] = curr_value - invested
             # percentage_of_50lacs = 100 * invested / 5000000
             percentage_of_invested = 100 * invested / category_stats[ALL_CATEGORIES][INVESTED]
             percentage_of_curr_value = 100 * curr_value / category_stats[ALL_CATEGORIES][CURR_VALUE]
