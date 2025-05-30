@@ -199,8 +199,7 @@ def write_analysed_stock_holdings(holdings_by_category, category_stats):
             print(f"{category} - {h[INSTRUMENT]} -{h[QUANTITY]} - {h[AVG_COST]} - {invested} - {h[LTP]}")
             net_change = 100 * float(h[PROFIT_LOSS]) / invested
             company_name = h.get(COMPANY_NAME, h[INSTRUMENT])
-            line = f"{category[2:]},{h[INSTRUMENT]},{company_name},{h[QUANTITY]},{h[AVG_COST]},{invested},{h[LTP]}," \
-                   f"{curr_value},{h[PROFIT_LOSS]},{net_change}%,{percentage_of_invested}%,{percentage_of_curr_value}%"
+            line = f'{category[2:]},{h[INSTRUMENT]},{company_name},{h[QUANTITY]},{h[AVG_COST]},"{format_indian_number(invested)}",{h[LTP]},"{format_indian_number(curr_value)}","{format_indian_number(h[PROFIT_LOSS])}",{net_change}%,{percentage_of_invested}%,{percentage_of_curr_value}%'
             write_line(output, line)
 
         category_stat = print_sub_total(category, category_stats, output)
@@ -211,9 +210,43 @@ def write_analysed_stock_holdings(holdings_by_category, category_stats):
 
 
 def print_global_total(global_total, output):
-    line = f"Grand-Total,,,,,{global_total[INVESTED]},,{global_total[CURR_VALUE]},{global_total[PROFIT_LOSS]},,{global_total[PERCENTAGE_OF_INVESTED]},{global_total[PERCENTAGE_OF_CURR_VALUE]}"
+    line = f'Grand-Total,,,,,"{format_indian_number(global_total[INVESTED])}",,"{format_indian_number(global_total[CURR_VALUE])}","{format_indian_number(global_total[PROFIT_LOSS])}",,{global_total[PERCENTAGE_OF_INVESTED]},{global_total[PERCENTAGE_OF_CURR_VALUE]}'
     write_line(output, line)
 
+
+def format_indian_number(number, decimal_places=0):
+    """Format a number in Indian style with commas (e.g., 1,00,000 for 1 lakh)"""
+    number = float(number)
+    is_negative = number < 0
+    number = abs(number)
+    str_number = "{:.2f}".format(number)
+    parts = str_number.split('.')
+    integer_part = parts[0]
+    decimal_part = parts[1]
+    
+    # Handle numbers less than 1000
+    if len(integer_part) <= 3:
+        result = integer_part
+    else:
+        # Split the integer part into groups of 2 from right, except the last 3 digits
+        s = integer_part[-3:]
+        integer_part = integer_part[:-3]
+        
+        while integer_part:
+            s = integer_part[-2:] + ',' + s if len(integer_part) >= 2 else integer_part + ',' + s
+            integer_part = integer_part[:-2]
+        
+        result = s
+
+    # Add decimal part back
+    if decimal_places == 2:
+        result = result + '.' + decimal_part
+
+    # Add negative sign if needed
+    if is_negative:
+        result = '-' + result
+    
+    return result
 
 def write_line(output, line):
     print(line)
@@ -232,7 +265,7 @@ def calc_global_total(category_stat, global_total):
 
 def print_sub_total(category, category_stats, output):
     category_stat = category_stats[category]
-    line = f"Sub-Total,,,,,{category_stat[INVESTED]},,{category_stat[CURR_VALUE]},{category_stat[PROFIT_LOSS]},,{category_stat[PERCENTAGE_OF_INVESTED]}%,{category_stat[PERCENTAGE_OF_CURR_VALUE]}%"
+    line = f'Sub-Total,,,,,"{format_indian_number(category_stat[INVESTED])}",,"{format_indian_number(category_stat[CURR_VALUE])}","{format_indian_number(category_stat[PROFIT_LOSS])}",,{category_stat[PERCENTAGE_OF_INVESTED]}%,{category_stat[PERCENTAGE_OF_CURR_VALUE]}%'
     write_line(output, line)
     # write_line(output, ",,,,,,,,,")
     return category_stat
