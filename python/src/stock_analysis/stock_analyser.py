@@ -10,7 +10,7 @@ ALL_CATEGORIES = "ALL_CATEGORIES"
 
 SYMBOLS_TO_FILTER = [
     "SBICARD", "HDFCBANK",
-    "MAFANG",
+    "MAFANG", "ITCHOTELS",
     "SGBDE30III-GB", "SGBDEC30", "SGBJUN31I-GB", "SGBJUNE31", "SGBDEC31", "SGBDE31III-GB", "SGBDE31III",
     "SGBDE30III", "SGBJUN31I",
     "GOLDBEES", "JUNIORBEES", "LIQUIDBEES", "NIFTYBEES",
@@ -33,7 +33,7 @@ STOCK_CATEGORY = {
     "2-STRONG-NON-CORE": ["BSE", "EUREKAFORBE", "JSWINFRA", "IRCON", "IRFC", "JIOFIN", "MAXHEALTH", "MAXVIL", "POONAWALLA", "TATAELXSI", "SBICARD"],
     "3-OTHER-NON-CORE": [
         "ACCENTMIC-SM", "BEWLTD-SM", "BEWLTD-ST", "CHOICEIN", "DUCOL-ST", "DUCOL-SM", "EFCIL", "JYOTISTRUC", "JYOTISTRUC-BE", "JYOTISTRUC-BZ", "HCC",
-        "HEMIPROP", "IDEA", "ISMTLTD", "LSIL", "LSIL-BE", "LLOYDSTEEL", "LLOYDSENGG", "LLOYDSENGG-BE", "LLOYDSENT", "MADHAVBAUG-SM", "MAFANG", "PVP", "PYRAMID", "PYRAMID-BE", "RENUKA",
+        "HEMIPROP", "IDEA", "ISMTLTD", "LSIL", "LSIL-BE", "LLOYDSTEEL", "LLOYDSENGG", "LLOYDSENGG-BE", "LLOYDSENT", "MADHAVBAUG-SM", "MADHAVBAUG-ST", "MAFANG", "PVP", "PYRAMID", "PYRAMID-BE", "RENUKA",
         "SANGHIIND", "SANGHIIND-BE", "SHREERAMA", "SHREERAMA-BE", "SHRGLTR", "SWSOLAR", "SWSOLAR-BE", "TANAA", "TTML", "TCC"
     ],
     "4-PASSIVE": ["GOLDBEES", "JUNIORBEES", "LIQUIDBEES", "NIFTYBEES", "SGBDEC30", "SGBDE30III-GB", "SGBJUNE31"],
@@ -94,8 +94,8 @@ BSE_CODES = {
 UPDATED_QUANTITIES = {
     "BEWLTD-SM": 375 * 3,
     "BEWLTD-ST": 375 * 3,
-    "BSE": 300,
-    "EFCIL": 1000,
+    "BSE": 300*3,
+    "EFCIL": 2000,
     "HCC": 17500,
     "HEMIPROP": 4000,
     "HINDUNILVR": 75,
@@ -365,7 +365,7 @@ def update_quantities(holdings):
 
 def generate_stock_report():
     holdings = read_stock_holdings(
-        "/Users/yogeshnaik/Yogesh/workspace/personal/programming-problems/python/src/stock_analysis/holdings.csv"
+        "/Users/ynaik1/workspace/personal/programming-problems/python/src/stock_analysis/holdings.csv"
     )
     # add_hdfc_securities(holdings)
     holdings = update_quantities(holdings)
