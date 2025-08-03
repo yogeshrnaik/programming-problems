@@ -2,25 +2,21 @@ import csv
 import json
 import os
 import sys
-import base64
 import requests
 
-def create_jira_issue(username, password, jira_url, issue_data):
+def create_jira_issue(jira_access_token, jira_url, issue_data):
     """
     Creates a Jira issue using the REST API.
 
     Args:
-        username (str): Jira username.
-        password (str): Jira password.
+        jira_access_token (str): Jira Personal access token.
         jira_url (str): Base Jira API URL (e.g., https://jira.intuit.com/rest/api/2/issue).
         issue_data (dict): Dictionary containing the fields for the new Jira issue.
 
     Returns:
         tuple: (HTTP Status Code, Response Body JSON or Text)
     """
-    auth_string = f"{username}:{password}"
-    base64_auth_bytes = base64.b64encode(auth_string.encode('utf-8'))
-    auth_header = f"Basic {base64_auth_bytes.decode('utf-8')}"
+    auth_header = f"Bearer {jira_access_token}"
 
     headers = {
         'Authorization': auth_header,
@@ -59,11 +55,10 @@ def main():
     jira_base_url = sys.argv[1].rstrip('/')
     csv_file_path = sys.argv[2]
 
-    username = os.getenv("JIRA_USERNAME")
-    password = os.getenv("JIRA_PASSWORD")
+    jira_access_token = os.getenv("JIRA_ACCESS_TOKEN")
 
-    if not username or not password:
-        print("Error: JIRA_USERNAME and JIRA_PASSWORD environment variables must be set.")
+    if not jira_access_token:
+        print("Error: JIRA_ACCESS_TOKEN environment variables must be set.")
         sys.exit(1)
 
     create_issue_url = f"{jira_base_url}/rest/api/2/issue"
@@ -148,7 +143,7 @@ def main():
                 # Uncomment the line below to see the exact JSON payload being sent for debugging
                 print(f"Payload: {json.dumps(issue_payload, indent=2)}")
 
-                status_code, response_body = create_jira_issue(username, password, create_issue_url, issue_payload)
+                status_code, response_body = create_jira_issue(jira_access_token, create_issue_url, issue_payload)
 
                 print(f"HTTP Status Code: {status_code}")
                 print(f"Response Body: {json.dumps(response_body, indent=2)}") # Pretty print JSON response
