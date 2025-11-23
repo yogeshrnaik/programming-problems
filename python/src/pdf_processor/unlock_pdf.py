@@ -198,7 +198,7 @@ def main():
     # output_path = sys.argv[3] if len(sys.argv) > 3 else None
 
     input_path = "/Users/ynaik1/Library/CloudStorage/GoogleDrive-yogeshrnaik@gmail.com/My Drive/Personal/Jobs/Intuit/Reimbursements/Jio/Unclaimed"
-    password = "yoge4394"
+    password = ""
     output_path = None
     
     try:
