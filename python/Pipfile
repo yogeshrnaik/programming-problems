@@ -9,6 +9,7 @@ bsedata = "*"
 pyargon2 = "*"
 argon2-cffi = "*"
 PyPDF2 = "3.0.1"
+PyMuPDF = "*"
 
 [dev-packages]
 
