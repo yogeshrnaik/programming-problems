@@ -6,6 +6,7 @@ from functools import wraps
 
 from nsetools import nse, Nse
 from bsedata.bse import BSE
+from bsedata.exceptions import InvalidStockException
 
 PERCENTAGE_OF_INVESTED = "PERCENTAGE_OF_INVESTED"
 PERCENTAGE_OF_CURR_VALUE = "PERCENTAGE_OF_CURR_VALUE"
@@ -13,7 +14,7 @@ PERCENTAGE_CHANGE = "PERCENTAGE_CHANGE"
 ALL_CATEGORIES = "ALL_CATEGORIES"
 
 SYMBOLS_TO_FILTER = [
-    "SBICARD", "HDFCBANK", "KWIL", "KWIL-BE", "HINDUNILVR", "SBIN",
+    "SBICARD", "HDFCBANK", "KWIL", "KWIL-BE", "HINDUNILVR", "SBIN", "LT",
     "MAFANG", "ITCHOTELS",
     "SGBDE30III-GB", "SGBDEC30", "SGBJUN31I-GB", "SGBJUNE31", "SGBDEC31", "SGBDE31III-GB", "SGBDE31III",
     "SGBDE30III", "SGBJUN31I",
@@ -35,7 +36,7 @@ PERCENTAGE_OF_50L = "% of 50L"
 PERCENTAGE_OF_75L = "% of 75L"
 
 STOCK_CATEGORY = {
-    "1-CORE": ["HDFCBANK", "HINDUNILVR", "ITC", "ITC1", "NESTLEIND", "RELIANCE", "SIEMENS", "TCS", "SBIN", "INFY"],
+    "1-CORE": ["HDFCBANK", "HINDUNILVR", "ITC", "ITC1", "NESTLEIND", "RELIANCE", "SIEMENS", "TCS", "SBIN", "INFY", "LT"],
     "2-STRONG-NON-CORE": ["BSE", "EUREKAFORBE", "JSWINFRA", "IRCON", "IRFC", "JIOFIN", "MAXHEALTH", "MAXVIL", "POONAWALLA", "TATAELXSI", "SBICARD"],
     "3-OTHER-NON-CORE": [
         "ACCENTMIC-SM", "ACCENTMIC-ST", "BEWLTD-SM", "BEWLTD-ST", "CHOICEIN", "DUCOL-ST", "DUCOL-SM", "EFCIL", "JYOTISTRUC", "JYOTISTRUC-BE", "JYOTISTRUC-BZ", "HCC", "HCC-BE",
@@ -97,18 +98,15 @@ BSE_CODES = {
     "TCC": "512038",
     "PVP": "517556",
     "PVP-BE": "517556",
+    "LT": "500510"
 }
 
 UPDATED_QUANTITIES = {
-    "BEWLTD-SM": 375 * 3,
-    "BEWLTD-ST": 375 * 3,
-    "BSE": 750,
+    "BSE": 500,
     "EFCIL": 1500,
-    "HCC": 17500,
-    "HCC-BE": 17500,
-    "HEMIPROP": 4000,
+    "HCC": 15000,
+    "HCC-BE": 15000,
     "HINDUNILVR": 75,
-    "INFY": 50,
     "IRFC": 7500,
     "LLOYDSENGG": 15000,
     "NESTLEIND": 200,
@@ -118,7 +116,6 @@ UPDATED_QUANTITIES = {
     "SWSOLAR": 1800,
     "TATAELXSI": 50,
     "TCC": 750,
-    "TCS": 50
 }
 
 nse = Nse()
@@ -372,6 +369,7 @@ def retry_on_none_error(max_retries=3, delay=1):
 
 @retry_on_none_error(max_retries=3, delay=2)
 def get_bse_quote(bse_instrument):
+    print(f"Getting market price of: {bse_instrument} on BSE")
     return bse.getQuote(bse_instrument)
 
 def update_by_market_price_on_bse(holding, instrument, retry=1):
@@ -387,6 +385,9 @@ def update_by_market_price_on_bse(holding, instrument, retry=1):
             return holding
     except AttributeError:
         print(f"Failed to fetch quote for {instrument} after retries")
+        return holding
+    except InvalidStockException as e:
+        print(f"Invalid/Inactive stock on BSE: {instrument} (code: {bse_instrument}). Error: {e}")
         return holding
 
     print(f"BSE: {bse_quote}")
