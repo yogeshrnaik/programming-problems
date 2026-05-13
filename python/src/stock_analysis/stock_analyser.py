@@ -14,7 +14,7 @@ PERCENTAGE_CHANGE = "PERCENTAGE_CHANGE"
 ALL_CATEGORIES = "ALL_CATEGORIES"
 
 SYMBOLS_TO_FILTER = [
-    "SBICARD", "HDFCBANK", "KWIL", "KWIL-BE", "HINDUNILVR", "SBIN", "LT",
+    "SBICARD", "HDFCBANK", "KWIL", "KWIL-BE", "HINDUNILVR", "EFCIL-RE-BE",
     "MAFANG", "ITCHOTELS",
     "SGBDE30III-GB", "SGBDEC30", "SGBJUN31I-GB", "SGBJUNE31", "SGBDEC31", "SGBDE31III-GB", "SGBDE31III",
     "SGBDE30III", "SGBJUN31I",
@@ -110,6 +110,7 @@ UPDATED_QUANTITIES = {
     "HINDUNILVR": 75,
     "IRFC": 7500,
     "LLOYDSENGG": 15000,
+    "LLOYDSENPP": 25000,
     "NESTLEIND": 200,
     "PVP": 15000,
     "PVP-BE": 15000,
@@ -117,6 +118,11 @@ UPDATED_QUANTITIES = {
     "SWSOLAR": 1800,
     "TATAELXSI": 50,
     "TCC": 750,
+}
+
+UPDATED_AVG_COST = {
+    "BSE": 1566.59,
+    "LLOYDSENPP": 9,
 }
 
 nse = Nse()
@@ -430,12 +436,21 @@ def update_quantities(holdings):
             print(f"Quantity not updated for: {h[INSTRUMENT]}")
     return holdings
 
+def update_avg_costs(holdings):
+    for h in holdings:
+        if UPDATED_AVG_COST.get(h[INSTRUMENT]):
+            h[AVG_COST] = str(UPDATED_AVG_COST.get(h[INSTRUMENT]))
+        else:
+            print(f"Avg cost not updated for: {h[INSTRUMENT]}")
+    return holdings
+
 def generate_stock_report():
     holdings = read_stock_holdings(
         "/Users/ynaik1/workspace/personal/programming-problems/python/src/stock_analysis/holdings.csv"
     )
     # add_hdfc_securities(holdings)
     holdings = update_quantities(holdings)
+    holdings = update_avg_costs(holdings)
     holdings = filter(holdings)
     update_all_holdings_by_market_price(holdings)
     holdings_by_category, category_stats = analyse_stock_holdings(holdings)
