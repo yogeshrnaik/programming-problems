@@ -194,9 +194,9 @@ def stats_by_category(holdings_by_category):
     return category_stats
 
 
-def write_analysed_stock_holdings(holdings_by_category, category_stats):
+def write_analysed_stock_holdings(holdings_by_category, category_stats, output_filename="stock_output.csv"):
     global_total = {}
-    output = open("stock_output.csv", "w")
+    output = open(output_filename, "w")
     write_line(output,
                f"Category,Instrument,Company Name,Quantity,Avg Cost,Invested,Market Price,Curr Value,P&L,% Net Change,% Invested Amt,% Curr Value")
 
@@ -444,21 +444,26 @@ def update_avg_costs(holdings):
             print(f"Avg cost not updated for: {h[INSTRUMENT]}")
     return holdings
 
-def generate_stock_report():
+def generate_stock_report(skip_overrides=False):
     holdings = read_stock_holdings(
         "/Users/ynaik1/workspace/personal/programming-problems/python/src/stock_analysis/holdings.csv"
     )
     # add_hdfc_securities(holdings)
-    holdings = update_quantities(holdings)
-    holdings = update_avg_costs(holdings)
+    if not skip_overrides:
+        holdings = update_quantities(holdings)
+        holdings = update_avg_costs(holdings)
     holdings = filter(holdings)
     update_all_holdings_by_market_price(holdings)
     holdings_by_category, category_stats = analyse_stock_holdings(holdings)
-    write_analysed_stock_holdings(holdings_by_category, category_stats)
+    output_filename = "stock_output_actual.csv" if skip_overrides else "stock_output_projected.csv"
+    write_analysed_stock_holdings(holdings_by_category, category_stats, output_filename)
 
 
 def main():
-    generate_stock_report()
+    print("=== Generating report with actual holdings (no overrides) ===")
+    generate_stock_report(skip_overrides=True)
+    print("=== Generating report with projected holdings (overrides applied) ===")
+    generate_stock_report(skip_overrides=False)
 
 
 main()
